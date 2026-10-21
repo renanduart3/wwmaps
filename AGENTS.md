@@ -31,6 +31,7 @@ Read docs/LOCAL-STUDIO.md for the dev-only /__studio/ editor. Never add its HTML
 
 ## Commands
 
+- Windows startup: `iniciar.cmd` replaces previous project runtimes, frees reserved ports and owns children through a Windows Job Object. `iniciar.cmd stop` shuts them down. Read docs/STARTUP.md before changing lifecycle behavior; never replace scoped cleanup with global node.exe termination. Keep Astro strictPort enabled and runtime state/logs private under .studio/runtime.
 - `npm run dev`: local UI with draft previews.
 - `npm run preview`: production build + local Pages/Functions runtime.
 - `npm run ai:doctor`: local Ollama diagnostics.

@@ -28,6 +28,6 @@ const localVisuals={name:'wwmaps-local-visuals',configureServer(server){
 export default defineConfig({
   site: process.env.PUBLIC_SITE_URL || 'https://wwmaps.com',
   output: 'static',
-  vite:{plugins:[localStudioPlugin(resolve(fileURLToPath(new URL('../..',import.meta.url)))),localVisuals]},
+  vite:{server:{strictPort:true},plugins:[localStudioPlugin(resolve(fileURLToPath(new URL('../..',import.meta.url)))),localVisuals]},
   build: { assets: '_assets' }
 });

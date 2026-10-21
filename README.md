@@ -8,10 +8,12 @@ Node.js **22.19+** e npm. Na raiz do projeto:
 
 ```powershell
 npm ci
-npm run dev
+.\iniciar.cmd
 ```
 
 Site: `http://localhost:4321`. O desenvolvimento inclui rascunhos para revisão; o build público exclui drafts e posts futuros.
+
+No Windows, **iniciar.cmd** limpa instâncias anteriores e as portas 4321/8788/8789, inicia somente um servidor e encerra os filhos ao fechar a janela. Para parar: `.\iniciar.cmd stop`. Detalhes e opções: [docs/STARTUP.md](docs/STARTUP.md). `npm run dev` permanece como entrada manual sem esse gerenciamento.
 
 ```powershell
 npm run preview
