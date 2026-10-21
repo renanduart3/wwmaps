@@ -31,6 +31,9 @@ test('three explicit styles, clean topic parsing and non-destructive batch scaff
     await assert.rejects(writeVisualPrompts(dir),/Research needs/);
     const before=await readFile(join(dir,'post.json'),'utf8');await analyzeTopics(join(root,'visuals'),file);
     assert.equal(await readFile(join(dir,'post.json'),'utf8'),before);
+    const csv=join(root,'briefs.csv');await writeFile(csv,'topic;style;languages;title_en;title_pt_br;conteudo\nBriefed map;editorial-data;en,pt-BR;Briefed map;Mapa planejado;Mapa roxo com legenda e período');
+    await analyzeTopics(join(root,'visuals'),csv);const imported=visualPostSchema.parse(JSON.parse(await readFile(join(root,'visuals/briefed-map/post.json'),'utf8')));
+    assert.equal(imported.visual.instructions,'Mapa roxo com legenda e período');assert.deepEqual(imported.languages,['en','pt-BR']);assert.equal(imported.translations['pt-BR']!.title,'Mapa planejado');assert.ok(imported.createdAt);
   }finally{await rm(root,{recursive:true,force:true});}
 });
 test('standalone prompts keep all data and language instructions, honor each explicit style and reject incomplete research',()=>{

@@ -1,4 +1,4 @@
-import {readFile,writeFile,mkdir,rename,access,readdir,cp} from 'node:fs/promises';
+import {readFile,writeFile,mkdir,rename,access,readdir,cp,stat} from 'node:fs/promises';
 import {join,resolve,relative,isAbsolute} from 'node:path';
 import {createHash,randomUUID} from 'node:crypto';
 import {z} from 'zod';
@@ -15,6 +15,7 @@ const origin=z.enum(['visual','legado']);
 const reference=z.object({id,origin:origin.default('visual'),revision:z.string()}).strict();
 const kind=visualPostSchema.shape.visual.unwrap().shape.kind.unwrap();
 const fields=z.object({
+  instructions:z.string().max(20000).optional(),
   title_en:z.string().min(1).max(140).optional(),title_pt_br:z.string().min(1).max(140).optional(),
   style:imageStyleSchema.optional(),category:categorySchema.optional(),kind:kind.optional(),
   layout:editorialDataLayoutSchema.nullable().optional(),
@@ -30,17 +31,18 @@ const operation=z.discriminatedUnion('action',[
   z.object({action:z.literal('create'),topics:z.array(z.string().trim().min(1).max(140)).min(1).max(100),style:imageStyleSchema,category:categorySchema,kind,languages:z.array(z.enum(['en','pt-BR'])).min(1).max(2),layout:editorialDataLayoutSchema.nullable().optional()}).strict(),
 ]);
 const hash=(text:string)=>createHash('sha256').update(text).digest('hex');
-const planningColumns=['topic','style','category','kind','layout','languages','title_en','title_pt_br','instructions'];
-export function planningCsvTemplate(){return contentCsv([planningColumns,['Countries by GDP per capita','editorial-data','economy','map','editorial-data-map','en,pt-BR','Countries by GDP per capita','Países por PIB per capita','One world map with a clear legend.']]);}
+const planningColumns=['topic','style','category','kind','layout','languages','title_en','title_pt_br','conteudo'];
+export function planningCsvTemplate(){return contentCsv([planningColumns,['Countries by GDP per capita','editorial-data','economy','map','editorial-data-map','en,pt-BR','Countries by GDP per capita','Países por PIB per capita','Objetivo: comparar PIB per capita. Recorte: países, último ano comum disponível; verificar World Bank. Mapa: coroplético, 5 faixas com limites explícitos e unidade US$ correntes; ausências em cinza. Legenda: mostrar faixas, ano e unidade. Cores: roxo sequencial, bege #FAF5E9, crimson #BE2349 apenas no destaque. Labels: destacar Brasil e 3 extremos confirmados. Rodapé: fonte e limitações. Não inventar valores ou usar anos diferentes sem aviso.']]);}
 export function planningCsvPosts(csv:string){
   const rows=parseContentCsv(csv);
   if(!rows.length||rows.length>100)throw new StudioError('Importe entre 1 e 100 pautas por arquivo.');
   const posts=rows.map((row,index)=>{
     try{
-      for(const column of Object.keys(row))if(!planningColumns.includes(column))throw new Error(`Coluna desconhecida: ${column}. Use o modelo de importação, não o relatório exportado.`);
+      for(const column of Object.keys(row))if(![...planningColumns,'instructions'].includes(column))throw new Error(`Coluna desconhecida: ${column}. Use o modelo de importação, não o relatório exportado.`);
+      if(row.conteudo&&row.instructions&&row.conteudo!==row.instructions)throw new Error('Use conteudo ou instructions; os dois campos divergem.');
       const languages=(row.languages||'en').split(',').map(value=>value.trim());
       return visualPostSchema.parse({id:slugify(z.string().min(1).max(140).parse(row.topic)),style:row.style,category:row.category||'geography',languages,
-        visual:{kind:row.kind||'map',layout:row.layout||undefined,instructions:row.instructions||''},
+        visual:{kind:row.kind||'map',layout:row.layout||undefined,instructions:z.string().max(20000).parse(row.conteudo||row.instructions||'')},
         translations:Object.fromEntries(languages.map(language=>[language,{title:(language==='en'?row.title_en:row.title_pt_br)||row.topic}]))});
     }catch(error){throw new StudioError(`Linha ${index+2}: ${error instanceof Error?error.message:String(error)}`);}
   });
@@ -88,9 +90,10 @@ export async function editorData(root:string){
   const rows=await contentCatalogRows(root),headers=rows.shift()!;
   const records=await Promise.all(rows.map(async row=>{
     const summary=Object.fromEntries(headers.map((key,i)=>[String(key),row[i]]));
-    try{const p=await readManaged(root,String(summary.origem),String(summary.id));return {summary,manageable:true,editable:summary.origem==='visual',revision:p.revision,post:p.post};}
+    try{const p=await readManaged(root,String(summary.origem),String(summary.id));const createdAt=('createdAt' in p.post&&p.post.createdAt)||new Date((await stat(join(p.dir,'post.json'))).birthtimeMs).toISOString();return {summary,createdAt,manageable:true,editable:summary.origem==='visual',revision:p.revision,post:p.post};}
     catch{return {summary,manageable:false,editable:false};}
   }));
+  records.sort((a,b)=>(b.createdAt??'').localeCompare(a.createdAt??''));
   return {records,options:{styles:imageStyleSchema.options,layouts:editorialDataLayoutSchema.options,kinds:kind.options,categories:categories.map(c=>({id:c.id,label:c.pt}))}};
 }
 
@@ -103,6 +106,7 @@ async function performEdit(root:string,input:unknown){
   const request=operation.parse(input);
   if(request.action==='import-csv'){
     const posts=planningCsvPosts(request.csv);
+    const createdAt=new Date().toISOString();for(const p of posts)p.createdAt=createdAt;
     for(const p of posts)for(const source of ['visual','legado'])if(await access(contentFolder(root,source,p.id)).then(()=>true,()=>false))throw new StudioError(`A pauta ${p.id} já existe. Nenhuma foi importada.`,409);
     if(request.preview)return {posts:posts.map(p=>({id:p.id,title:p.translations.en?.title??p.translations['pt-BR']!.title,style:p.style,category:p.category,languages:p.languages,kind:p.visual.kind})),count:posts.length};
     const created:string[]=[];
@@ -135,6 +139,7 @@ async function performEdit(root:string,input:unknown){
     if(original.revision!==request.revision)throw new StudioError('Conteúdo alterado fora do formulário. Recarregue antes de salvar.',409);
     const post=request.origin==='visual'?visualPostSchema.parse(request.post):postSchema.parse(request.post);
     if(post.id!==request.id)throw new StudioError('O ID não pode ser alterado pelo formulário.');
+    if(request.origin==='visual'&&'createdAt' in original.post)Object.assign(post,{createdAt:original.post.createdAt});
     const writes:FileWrite[]=[{file:join(original.dir,'post.json'),before:original.raw,after:JSON.stringify(post,null,2)+'\n'}];
     if(request.origin==='visual'){
       const p=visualPostSchema.parse(post);
@@ -154,7 +159,7 @@ async function performEdit(root:string,input:unknown){
   }
   if(request.action==='create'){
     const posts=request.topics.map(topic=>visualPostSchema.parse({
-      id:slugify(topic),style:request.style,category:request.category,languages:request.languages,
+      id:slugify(topic),createdAt:new Date().toISOString(),style:request.style,category:request.category,languages:request.languages,
       visual:{kind:request.kind,layout:request.layout??undefined,instructions:''},
       translations:Object.fromEntries(request.languages.map(language=>[language,{title:topic}]))
     }));
@@ -182,6 +187,7 @@ async function performEdit(root:string,input:unknown){
       if(edit.style)p.style=edit.style;
       if(edit.category)p.category=edit.category;
       if(edit.kind)p.visual.kind=edit.kind;
+      if(edit.instructions!==undefined)p.visual.instructions=edit.instructions;
       if('layout' in edit)p.visual.layout=edit.layout??undefined;
       else if(p.style!=='editorial-data')delete p.visual.layout;
       if(edit.status)p.status=edit.status;

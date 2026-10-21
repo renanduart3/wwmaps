@@ -5,7 +5,7 @@ import {externalImagePrompt} from '@atlas/prompts';
 import {visualImage,validateVisualPost,visualPostVisible} from '@atlas/content-store';
 import {contentCsv} from './content-csv.js';
 
-const headers=['id','titulo','titulo_pt_br','origem','categoria','estilo_editorial','layout_visual','tipo_visual','idiomas','etapa_producao','produzido','status_configurado','publicacao_no_build','data_publicacao','prompts','imagens','pendencias','pasta','fontes'];
+const headers=['id','titulo','titulo_pt_br','origem','categoria','estilo_editorial','layout_visual','tipo_visual','idiomas','etapa_producao','produzido','status_configurado','publicacao_no_build','data_publicacao','prompts','imagens','pendencias','pasta','fontes','conteudo','criado_em'];
 const exists=(path:string)=>access(path).then(()=>true,()=>false);
 const directories=async(path:string)=>(await readdir(path,{withFileTypes:true}).catch((e:NodeJS.ErrnoException)=>{if(e.code==='ENOENT')return [];throw e;})).filter(d=>d.isDirectory()&&!d.name.startsWith('.')).sort((a,b)=>a.name.localeCompare(b.name));
 
@@ -51,6 +51,10 @@ export async function contentCatalogRows(root:string,now=new Date()){
         rows.push([entry.name,'Metadados invalidos','',legacy?'legado':'visual','','','','','','corrigir-metadados','nao','','bloqueado','','','',String(error),folder,'']);
       }
     }
+  }
+  for(const row of rows.slice(1)){
+    if(row[3]!=='visual'){row.push('','');continue;}
+    try{const post=visualPostSchema.parse(JSON.parse(await readFile(join(root,String(row[17]),'post.json'),'utf8')));row.push(post.visual.instructions,post.createdAt??'');}catch{row.push('','');}
   }
   return rows;
 }

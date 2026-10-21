@@ -17,6 +17,7 @@ Formato: CSV UTF-8 com BOM, separador ponto e vírgula, campos entre aspas. Se o
 | `status_configurado`, `publicacao_no_build`, `data_publicacao` | Status do post, efeito no próximo build e data com fuso. Não confirmam deploy no site. |
 | `prompts`, `imagens`, `pendencias` | Situação por idioma e ações ainda necessárias. |
 | `pasta`, `fontes` | Local dos arquivos e URLs pesquisadas. |
+| `conteudo`, `criado_em` | Briefing de visual.instructions e data de criação, quando registrada. Não é data de publicação. |
 
 Etapas: `planejado` → `em-pesquisa` → `prompts-pendentes` → `aguardando-imagens` → `aguardando-revisao` → `producao-completa`. Erros aparecem como `corrigir-arquivos` ou `corrigir-metadados`. Algumas etapas podem ser puladas ao concluir vários requisitos juntos.
 
@@ -35,6 +36,8 @@ npm run content:catalog
 O CSV é uma visão gerada: editar suas células não altera os posts, e uma nova geração substitui essas edições. Mantenha alterações de conteúdo/estilo/data no `post.json`. A saída é determinística e não regrava quando nada mudou. O catálogo é ignorado pelo Git; os post.json e imagens que alimentam a publicação continuam versionados. Para editar sem mexer no JSON manualmente, use o painel local.
 
 ## Declarar pautas em tabela
+
+Para importar pelo painel e desenvolver pautas já importadas com o agente, use o modelo baixado no Plan e os pedidos em [PLANNING-AI.md](PLANNING-AI.md). A coluna `conteudo` é preservada tanto pelo painel quanto por `content:analyze`. As pautas novas entram acima das anteriores no planejador.
 
 Você pode continuar com a lista Markdown ou copiar `content/inbox/template.csv` para `content/inbox/assuntos.csv` e preencher:
 

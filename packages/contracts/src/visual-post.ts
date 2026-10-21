@@ -7,6 +7,7 @@ const lang=z.enum(['en','pt-BR']);
 const source=z.object({id:z.string().regex(/^[a-z0-9-]+$/),title:z.string().min(1),url:z.url().refine(s=>/^https?:\/\//.test(s)),accessedAt:z.iso.date()});
 export const visualPostSchema=z.object({
   id:z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  createdAt:z.iso.datetime().optional(),
   status:z.enum(['draft','scheduled','published']).default('draft'),
   publishAt:z.iso.datetime({offset:true}).nullable().default(null),
   style:imageStyleSchema,

@@ -1,5 +1,7 @@
 # Operar o conteúdo com Codex
 
+Pedidos prontos para pesquisa externa em CSV e desenvolvimento de pautas já importadas, campos do briefing e comandos: [PLANNING-AI.md](PLANNING-AI.md). O planejador empilha novas importações no topo e salva `conteudo` em `visual.instructions`.
+
 O fluxo vigente é **lista → pesquisa e prompts no Codex → imagens geradas por você fora → salvar → revisar → agendar**. Não exige Ollama nem outro servidor de IA local. Codex opera os arquivos locais; a localização da inferência depende do modelo/provedor que você usa no Codex.
 
 ## Pedido padrão

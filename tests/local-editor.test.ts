@@ -7,6 +7,21 @@ import {editContent,editorData,editorDetail,editorTrash,planningCsvTemplate,plan
 import {localStudioRequest} from '../apps/studio/local-plugin.mjs';
 
 const create=(topics:string[])=>({action:'create',topics,style:'editorial-data',category:'economy',kind:'map',languages:['en']});
+test('imports stack newest first, preserve old plans and retain editable content briefs',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'wwmaps-stack-'));
+ try{
+  await editContent(root,{action:'import-csv',csv:'topic;style;conteudo\nOlder map;editorial-data;Mapa com legenda e fonte'});
+  const old=await editorDetail(root,'visual','older-map');
+  const post={...old.post,createdAt:'2020-01-01T00:00:00.000Z'};await writeFile(join(root,'content/visuals/older-map/post.json'),JSON.stringify(post));
+  await editContent(root,{action:'import-csv',csv:'topic;style;conteudo\nA recent map;handdraw-simple;Gráfico de barras com unidades\nZ recent map;editorial-data;Mapa roxo'});
+  const data=await editorData(root);assert.equal(data.records.length,3);assert.equal(data.records.at(-1)!.summary.id,'older-map');
+  assert.equal(data.records[0].summary.conteudo,'Gráfico de barras com unidades');
+  const first=data.records[0];await editContent(root,{action:'save',changes:[{id:first.summary.id,revision:first.revision,fields:{instructions:'Nova legenda, cores roxas e valores ausentes em cinza'}}]});
+  const edited=(await editorDetail(root,'visual',String(first.summary.id))).post;assert.ok('visual' in edited);assert.equal(edited.visual.instructions,'Nova legenda, cores roxas e valores ausentes em cinza');
+  assert.equal((await editorData(root)).records[0].createdAt,first.createdAt);
+  const preserved=(await editorDetail(root,'visual','older-map')).post;assert.ok('visual' in preserved);assert.equal(preserved.visual.instructions,'Mapa com legenda e fonte');
+ }finally{await rm(root,{recursive:true,force:true});}
+});
 test('CSV planner validates a whole batch, previews without writing and never overwrites existing content',async()=>{
  const root=await mkdtemp(join(tmpdir(),'wwmaps-csv-'));
  try{

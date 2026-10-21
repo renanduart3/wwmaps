@@ -17,19 +17,20 @@ export function parseTopics(text:string,defaultStyle?:string,format?:'csv'){
     const value=typeof item==='string'?{topic:item}:item;
     if(typeof value.topic!=='string'||!value.topic.trim()||!slugify(value.topic))throw new Error('Each topic needs a title');
     if(value.style==='editorial-detailed')throw new Error('editorial-detailed was replaced by editorial-data. Review the data-card composition and update the declared style.');
+    if(value.conteudo&&value.instructions&&value.conteudo!==value.instructions)throw new Error('Use conteudo or instructions; the fields disagree.');
     const style=imageStyleSchema.parse(value.style||defaultStyle);
     const layout=value.layout?editorialDataLayoutSchema.parse(value.layout):undefined;
     if(layout&&style!=='editorial-data')throw new Error('Editorial data layouts require style editorial-data');
-    return {topic:value.topic.trim(),id:slugify(value.topic),style,layout,kind:value.kind||undefined,category:value.category||undefined};
+    return {topic:value.topic.trim(),id:slugify(value.topic),style,layout,kind:value.kind||undefined,category:value.category||undefined,instructions:value.conteudo||value.instructions||'',languages:value.languages?String(value.languages).split(',').map((s:string)=>s.trim()):undefined,title_en:value.title_en,title_pt_br:value.title_pt_br};
   });
   if(new Set(topics.map(t=>t.id)).size!==topics.length)throw new Error('Duplicate topic IDs; use distinct titles');
   return topics;
 }
 export async function analyzeTopics(root:string,input:string,style?:string,languages:string[]=['en']){
   const topics=parseTopics(await readFile(input,'utf8'),style,input.toLowerCase().endsWith('.csv')?'csv':undefined);
-  const posts=topics.map(item=>visualPostSchema.parse({id:item.id,style:item.style,languages,
-    category:item.category,visual:{kind:item.kind,layout:item.layout,instructions:''},
-    translations:Object.fromEntries(languages.map(language=>[language,{title:item.topic}]))}));
+  const posts=topics.map(item=>visualPostSchema.parse({id:item.id,createdAt:new Date().toISOString(),style:item.style,languages:item.languages??languages,
+    category:item.category,visual:{kind:item.kind,layout:item.layout,instructions:item.instructions},
+    translations:Object.fromEntries((item.languages??languages).map(language=>[language,{title:(language==='en'?item.title_en:item.title_pt_br)||item.topic}]))}));
   const output=[];
   for(const post of posts){
     const dir=join(root,post.id);
