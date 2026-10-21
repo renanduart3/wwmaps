@@ -36,6 +36,7 @@ test('CSV planner validates a whole batch, previews without writing and never ov
   assert.throws(()=>planningCsvPosts('topic;style;status\nTest;editorial-data;published'),/Coluna desconhecida/);
   assert.throws(()=>planningCsvPosts('topic;style\nTest;'),/Linha 2/);
   assert.throws(()=>planningCsvPosts('topic;style\n'),/entre 1 e 100/);
+  assert.throws(()=>planningCsvPosts('"id";"titulo";"estilo_editorial"\n"test";"Test";"editorial-data"'),/relatório de conteúdos/);
   assert.equal(planningCsvPosts('topic,style\n"A map, with detail",handdraw-simple')[0].translations.en!.title,'A map, with detail');
  }finally{await rm(root,{recursive:true,force:true});}
 });

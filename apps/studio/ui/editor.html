@@ -69,10 +69,11 @@ $('prompts').addEventListener('click',()=>run(async()=>{if(dirty.size)return mes
 $('export').addEventListener('click',()=>run(async()=>{if(dirty.size)return message('Salve ou descarte as alterações antes de exportar.',true);const response=await api('export'),url=URL.createObjectURL(await response.blob()),a=document.createElement('a');a.href=url;a.download='wwmaps-content.csv';a.click();URL.revokeObjectURL(url);message('CSV exportado com o estado dos arquivos locais.');}));
 const split=value=>value.split(',').map(x=>x.trim()).filter(Boolean);
 let importCsv=null;
-function resetImport(){importCsv=null;$('import-confirm').hidden=true;$('import-result').replaceChildren();}
+function resetImport(){importCsv=null;$('import-confirm').hidden=true;$('import-result').replaceChildren();$('import-result').removeAttribute('data-error');}
+async function runImport(work){await run(async()=>{try{await work();}catch(error){$('import-result').textContent=error.message;$('import-result').dataset.error='true';throw error;}});}
 $('import-file').addEventListener('change',resetImport);
 $('import-template').addEventListener('click',()=>run(async()=>{const response=await api('import-template'),url=URL.createObjectURL(await response.blob()),a=document.createElement('a');a.href=url;a.download='wwmaps-planning-template.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}));
-$('import-preview').addEventListener('click',()=>run(async()=>{
+$('import-preview').addEventListener('click',()=>runImport(async()=>{
  resetImport();if(dirty.size)throw new Error('Salve ou descarte as alterações antes de importar.');
  const file=$('import-file').files[0];if(!file)throw new Error('Selecione um CSV preenchido.');if(file.size>500000)throw new Error('Arquivo grande demais. Limite de 500 KB.');
  const csv=await file.text(),data=await(await api('edit',{action:'import-csv',csv,preview:true})).json();
@@ -80,9 +81,9 @@ $('import-preview').addEventListener('click',()=>run(async()=>{
  const list=document.createElement('ul');for(const post of data.posts){const item=document.createElement('li');item.textContent=`${post.title} · ${post.style} · ${post.category} · ${post.kind} · ${post.languages.join(', ')} · ID: ${post.id}`;list.append(item);}
  $('import-result').append(note,list);importCsv=csv;$('import-confirm').hidden=false;
 }));
-$('import-confirm').addEventListener('click',()=>run(async()=>{
+$('import-confirm').addEventListener('click',()=>runImport(async()=>{
  if(dirty.size)throw new Error('Salve ou descarte as alterações antes de importar.');if(importCsv===null)throw new Error('Valide o arquivo antes de importar.');
- const data=await(await api('edit',{action:'import-csv',csv:importCsv})).json();resetImport();$('import-file').value='';await load();message(data.message);
+ const data=await(await api('edit',{action:'import-csv',csv:importCsv})).json();resetImport();$('import-file').value='';await load();$('import-result').textContent=data.message;message(data.message);
 }));
 function field(parent,label,value='',multiline=false){const wrap=document.createElement('label'),caption=document.createElement('span'),input=document.createElement(multiline?'textarea':'input');caption.textContent=label;input.value=value??'';if(multiline)input.rows=label==='Texto do post'?'7':'3';else input.type='text';wrap.append(caption,input);parent.append(wrap);return input;}
 function addEvidence(type,value={}){

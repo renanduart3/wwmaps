@@ -29,7 +29,10 @@ export function parseContentCsv(text:string){
   if(!rows.length)throw new Error('Empty CSV');
   const headers=rows.shift()!.map(h=>h.trim());
   if(new Set(headers).size!==headers.length)throw new Error('Duplicate CSV column');
-  if(!headers.includes('topic'))throw new Error('Planning CSV needs a topic column (plus style, optional layout/kind/category)');
+  if(!headers.includes('topic')){
+    if(headers.includes('titulo')&&headers.includes('estilo_editorial'))throw new Error('Este arquivo é um relatório de conteúdos, não o modelo de importação. Clique em “Baixar modelo CSV” neste painel e preencha topic, style e conteudo. O relatório “Baixar CSV” não pode ser importado diretamente.');
+    throw new Error('O CSV precisa da coluna topic (assunto) e style (estilo). Baixe o modelo CSV na área de importação.');
+  }
   return rows.map((values,i)=>{
     if(values.length!==headers.length)throw new Error(`CSV row ${i+2}: expected ${headers.length} cells`);
     return Object.fromEntries(headers.map((key,j)=>[key,values[j].trim()]));

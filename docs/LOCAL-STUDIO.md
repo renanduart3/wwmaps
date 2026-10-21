@@ -22,6 +22,8 @@ Pacotes legados também têm consulta, formulário de edição e exclusão. O fo
 
 ## Importar CSV
 
+Se o arquivo começar com `id;titulo;...;estilo_editorial`, ele está no formato de relatório. O importador mostra a explicação junto dos botões: use **Baixar modelo CSV**, cujo cabeçalho começa com `topic;style`. Briefings detalhados devem entrar em `conteudo`, não na coluna `prompts` do relatório. Erros e confirmação de sucesso ficam visíveis na própria área de importação. CSVs de trabalho em `csvs/` também são privados e ignorados pelo Git.
+
 No planejamento, abra **Importar pautas por CSV** → **Baixar modelo CSV**. Substitua o exemplo pelas suas pautas, salve como CSV UTF-8 e selecione o arquivo. Clique **Validar e visualizar**, confira a lista e use **Confirmar importação**. Salve ou descarte edições pendentes antes de importar.
 
 Colunas: `topic` e `style` obrigatórias; `category` (padrão geography), `kind` (map), `layout` (vazio), `languages` (en), `title_en`, `title_pt_br` (título do topic quando vazios) e `conteudo` opcionais. `conteudo` é o briefing para desenvolvimento da pauta, salvo em `visual.instructions`; a coluna antiga `instructions` também é aceita. Para dois idiomas, preencha `en,pt-BR`; use títulos traduzidos nas colunas correspondentes. Estilos e layouts seguem os contratos oficiais. O modelo usa BOM UTF-8 e ponto e vírgula, compatível com Excel/LibreOffice; CSV separado por vírgula também é aceito.

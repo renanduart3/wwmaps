@@ -24,6 +24,7 @@ apps/web/public/visual-images/
 content/catalog*.csv
 content/catalog*.xlsx
 content/inbox/*
+csvs/
 !content/inbox/example.md
 !content/inbox/template.csv
 *.studio-tmp
