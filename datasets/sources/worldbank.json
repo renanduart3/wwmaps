@@ -1,0 +1,104 @@
+{
+  "provider": "World Bank",
+  "dataset": "World Development Indicators",
+  "sourceId": 2,
+  "startYear": 2010,
+  "endYear": 2024,
+  "license": {
+    "id": "CC-BY-4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "policyUrl": "https://datacatalog.worldbank.org/public-licenses"
+  },
+  "indicators": [
+    {
+      "id": "gdp",
+      "code": "NY.GDP.MKTP.CD",
+      "category": "economy",
+      "originalUnit": "Current US dollars",
+      "divisor": 1000000000000,
+      "definition": {
+        "en": "GDP is the total gross value added by resident producers plus taxes and minus product subsidies. Values are in current US dollars.",
+        "pt-BR": "PIB é o valor adicionado dos produtores residentes, acrescido de impostos e descontados subsídios sobre produtos, em dólares correntes."
+      },
+      "limitations": {
+        "en": "Nominal US$ values reflect prices and exchange rates; this is not inflation-adjusted growth. GDP is not household income.",
+        "pt-BR": "Valores nominais em US$ refletem preços e câmbio; não representam crescimento real. PIB não é renda domiciliar."
+      }
+    },
+    {
+      "id": "income",
+      "code": "NY.GDP.PCAP.CD",
+      "category": "economy",
+      "originalUnit": "Current US dollars per person",
+      "divisor": 1000,
+      "definition": {
+        "en": "GDP per capita is GDP divided by midyear population, expressed in current US dollars.",
+        "pt-BR": "PIB per capita é o PIB dividido pela população no meio do ano, em dólares correntes."
+      },
+      "limitations": {
+        "en": "An average, not median income. Not purchasing-power adjusted and not a measure of income distribution.",
+        "pt-BR": "É uma média, não a renda mediana. Não é ajustado por poder de compra e não mede distribuição de renda."
+      }
+    },
+    {
+      "id": "homicide",
+      "code": "VC.IHR.PSRC.P5",
+      "category": "society",
+      "originalUnit": "Intentional homicides per 100,000 people",
+      "divisor": 1,
+      "definition": {
+        "en": "Victims of unlawful deaths purposefully inflicted by another person, per 100,000 people. WDI distributes UNODC intentional-homicide data.",
+        "pt-BR": "Vítimas de mortes ilícitas intencionalmente causadas por outra pessoa, por 100 mil habitantes. O WDI distribui dados de homicídios intencionais da UNODC."
+      },
+      "limitations": {
+        "en": "Registration coverage, criminal-justice systems and definitions differ. Counts, war deaths and other violent deaths are not interchangeable with this rate.",
+        "pt-BR": "Cobertura de registro, sistemas de justiça e definições variam. Contagens, mortes em guerra e outras mortes violentas não equivalem a essa taxa."
+      }
+    },
+    {
+      "id": "birth",
+      "code": "SP.DYN.CBRT.IN",
+      "category": "geography",
+      "originalUnit": "Live births per 1,000 people",
+      "divisor": 1,
+      "definition": {
+        "en": "Number of live births during the year per 1,000 people, using the estimated midyear population.",
+        "pt-BR": "Nascidos vivos durante o ano por mil habitantes, usando a população estimada no meio do ano."
+      },
+      "limitations": {
+        "en": "Crude birth rate depends on population age structure. It is not the fertility rate (children per woman). Series may include demographic estimates.",
+        "pt-BR": "A taxa bruta depende da estrutura etária. Não é a taxa de fecundidade (filhos por mulher). A série pode incluir estimativas demográficas."
+      }
+    },
+    {
+      "id": "poverty",
+      "code": "SI.POV.DDAY",
+      "category": "economy",
+      "originalUnit": "Percent of population below US$3.00/day (2021 PPP)",
+      "divisor": 1,
+      "definition": {
+        "en": "Share of the population living below US$3.00 per person per day at 2021 purchasing-power parity.",
+        "pt-BR": "Parcela da população abaixo de US$3,00 por pessoa por dia, em paridade de poder de compra de 2021."
+      },
+      "limitations": {
+        "en": "Do not mix with older US$2.15/2017 PPP or US$1.90/2011 PPP vintages. Household-survey availability varies; an absent year is not zero poverty.",
+        "pt-BR": "Não misture com revisões antigas de US$2,15/PPC 2017 ou US$1,90/PPC 2011. Pesquisas domiciliares têm disponibilidade variável; ano ausente não significa pobreza zero."
+      }
+    },
+    {
+      "id": "life",
+      "code": "SP.DYN.LE00.IN",
+      "category": "society",
+      "originalUnit": "Years at birth",
+      "divisor": 1,
+      "definition": {
+        "en": "Years a newborn would live if prevailing age-specific mortality rates stayed constant throughout life.",
+        "pt-BR": "Anos que um recém-nascido viveria se as taxas de mortalidade por idade observadas permanecessem constantes ao longo da vida."
+      },
+      "limitations": {
+        "en": "A period life-table indicator, not a prediction of the actual lifespan of this birth cohort. Series may use modeled estimates.",
+        "pt-BR": "Indicador de tábua de vida de período, não uma previsão da longevidade real dessa coorte. Séries podem usar estimativas modeladas."
+      }
+    }
+  ]
+}

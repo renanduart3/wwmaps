@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "translations": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "enum": [
+          "pt-BR",
+          "en"
+        ]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "insight": {
+            "type": "string",
+            "minLength": 1
+          },
+          "paragraphs": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "claimIds": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                  }
+                }
+              },
+              "required": [
+                "text",
+                "claimIds"
+              ]
+            }
+          },
+          "instagramHook": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "title",
+          "summary",
+          "insight",
+          "paragraphs",
+          "instagramHook"
+        ]
+      }
+    },
+    "visual": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "playful-editorial",
+            "analytical-editorial"
+          ]
+        },
+        "characters": {
+          "default": "none",
+          "type": "string",
+          "enum": [
+            "none",
+            "guide"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "subtitle": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 65
+        },
+        "accent": {
+          "default": "#7132df",
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        }
+      },
+      "required": [
+        "title",
+        "subtitle"
+      ]
+    }
+  },
+  "required": [
+    "translations",
+    "visual"
+  ],
+  "additionalProperties": false
+}

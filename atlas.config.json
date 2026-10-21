@@ -1,0 +1,10 @@
+{
+  "ai": {
+    "baseUrl": "http://127.0.0.1:11434",
+    "model": "qwen3:8b",
+    "effort": "off",
+    "timeoutMs": 300000,
+    "contextTokens": 8192,
+    "outputTokens": 4096
+  }
+}

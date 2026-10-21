@@ -1,0 +1,41 @@
+---
+import {route} from '../lib/routes';
+import {categoryLabel} from '@atlas/contracts';
+import Base from './Base.astro';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import type { Post, Language, Source, Claim } from '@atlas/contracts';
+import { contentRoot, postUrl } from '../lib/posts';
+import { renderMarkdown } from '../lib/markdown';
+interface Props { post: Post; lang: Language }
+const { post, lang } = Astro.props;
+const copy = post.translations[lang]!;
+const pt = lang === 'pt-BR';
+const source = await readFile(join(contentRoot, post.id, `article.${lang}.md`), 'utf8');
+const sources: Source[] = JSON.parse(await readFile(join(contentRoot, post.id, 'sources.json'), 'utf8'));
+const claims: Claim[] = JSON.parse(await readFile(join(contentRoot, post.id, 'claims.json'), 'utf8'));
+const claimMap = new Map(claims.map(claim => [claim.id, claim]));
+const body = source.replace(/^# [^\n]+\n+/, '').replace(/^> [^\n]+\n+/, '')
+  .replace(/^## (?:Fontes|Sources)[\s\S]*$/m, '')
+  .replace(/\[[a-z0-9-]+\](?:[ \t]+\[[a-z0-9-]+\])*/g, block => {
+    const ids = [...block.matchAll(/\[([a-z0-9-]+)\]/g)].map(match => match[1]);
+    if (ids.some(id => !claimMap.has(id))) return block;
+    const sourceIds = [...new Set(ids.flatMap(id => claimMap.get(id)!.sourceIds))];
+    return sourceIds.map(id => {
+      const index = sources.findIndex(item => item.id === id);
+      return index < 0 ? '' : `[${pt ? 'Fonte' : 'Source'} ${index + 1}](${sources[index].url})`;
+    }).join(' · ');
+  });
+const cover = `/content/${post.id}/assets/cover.webp`;
+const date = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString(lang, { day:'numeric',month:'long',year:'numeric',timeZone:'America/Sao_Paulo' }) : (pt ? 'Em revisão' : 'In review');
+const schema = { '@context':'https://schema.org','@type':'Article',headline:copy.title,description:copy.summary,inLanguage:lang,datePublished:post.publishedAt,author:{'@type':'Organization',name:'WWMaps'},...(Astro.site ? {url:new URL(postUrl(post,lang),Astro.site).href,image:new URL(cover,Astro.site).href} : {}) };
+---
+<Base title={post.seo[lang]!.title} description={post.seo[lang]!.description} lang={lang} image={cover} noindex={post.status === 'draft'} alternates={Object.fromEntries(post.languages.map(l=>[l,postUrl(post,l)]))}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g,'\\u003c')} />
+  <div class="container article-shell"><a href={route('home',lang)} class="back">← {pt ? 'Todas as histórias' : 'All stories'}</a><header class="article-header"><div class="eyebrow">{categoryLabel(post.category,lang)}</div><h1>{copy.title}</h1><p class="dek">{copy.summary}</p><div class="article-meta"><span>{date}</span>{post.status === 'draft' && <span class="draft">{pt ? 'Rascunho' : 'Draft'}</span>}{post.languages.filter(l => l !== lang).map(l => <a href={postUrl(post,l)}>{l === 'en' ? 'Read in English' : 'Ler em português'} ↗</a>)}</div></header>
+    <figure class="article-visual"><img src={cover} width="1200" height="800" alt={pt ? 'Comparação esquemática de projeções cartográficas' : 'Schematic comparison of map projections'} /><figcaption>{pt ? 'Visual editorial. Consulte as fontes e a metodologia abaixo.' : 'Editorial illustration. See sources and methodology below.'}</figcaption></figure>
+    <div class="article-grid"><aside><span class="eyebrow">{pt ? 'Nesta história' : 'In this story'}</span><div class="tags">{post.tags.map(tag => <a class="tag" href={route('tag',lang,tag)}>{tag}</a>)}</div><a class="download" href={`/content/${post.id}/assets/instagram-4x5.png`} download>{pt ? 'Baixar visual' : 'Download visual'} ↗</a></aside><article class="prose" set:html={renderMarkdown(body)} /></div>
+    <section class="sources"><h2>{pt ? 'Explore as fontes' : 'Explore the sources'}</h2>{sources.map(s => <a href={s.url} rel="noopener noreferrer" target="_blank"><span>{s.title} ↗</span><small>{s.publisher} · {s.accessedAt}</small></a>)}</section>
+  </div>
+</Base>
+<style>.article-shell{padding-block:38px 80px}.back{font-size:13px;color:var(--muted)}.article-header{max-width:810px;margin:55px auto 40px}.article-header h1{margin:18px 0 23px}.dek{font-size:21px;color:var(--muted);line-height:1.6}.article-meta{display:flex;align-items:center;gap:20px;font-size:12px;color:var(--muted);margin-top:28px}.article-meta a{color:var(--accent)}.article-visual{margin:0 auto;max-width:900px}.article-visual img{width:100%;height:auto;border-radius:10px}.article-visual figcaption{font-size:12px;color:var(--muted);padding:12px 0}.article-grid{display:grid;grid-template-columns:190px minmax(0,700px);gap:70px;margin:50px auto;max-width:960px}aside .tags{margin:18px 0 28px}aside .download{font-size:13px;color:var(--accent)}.prose{font-size:17px;line-height:1.85;color:#38484e}.prose :global(h2){font-size:25px;margin:34px 0 17px;color:var(--ink)}.prose :global(h2:first-child){margin-top:0}.prose :global(a){color:var(--accent);text-decoration:underline;text-underline-offset:3px}.prose :global(blockquote){border-left:2px solid #8fbaaa;margin:25px 0;padding:0 22px;color:var(--muted)}.prose :global(pre){overflow:auto;padding:18px;background:var(--surface);border-radius:8px}.prose :global(li){margin-bottom:10px}.sources{max-width:700px;margin:50px 0 0 auto;border-top:1px solid var(--line);padding-top:30px}.sources>a{display:flex;flex-direction:column;gap:9px;padding-block:15px;font-size:14px}.sources small{color:var(--muted);font-size:12px}@media(max-width:800px){.article-grid{grid-template-columns:1fr;gap:28px}aside{border-bottom:1px solid var(--line);padding-bottom:25px}.article-header{margin-top:40px}.dek{font-size:18px}.sources{max-width:none}.prose{font-size:16px}}</style>

@@ -1,0 +1,23 @@
+{
+  "mode": "built-in image edit",
+  "transparentBackground": true,
+  "source": "Cartela de Sprites do Império WWMaps.png",
+  "assets": [
+    {
+      "name": "mascot",
+      "prompt": "Edit the supplied WWMaps sprite sheet: extract ONLY the LARGE mascot at far left, approximately x14–173 y114–362, wearing a folded newspaper hat and black suit. Keep its I HEART DATA hat lettering. Produce one isolated transparent PNG asset with fully transparent background. Faithfully preserve the original cartoon character, round peach head, expression, black hand drawn outlines, flat colors, pose, costume and props. This is an extraction, not a redesign. Remove the blurry sheet background completely, all category labels, nearby people, stray marks and shadows from the sheet. Preserve intentional black lines and opaque interiors. Full figure including feet and all props, centered, tightly framed with 8 percent transparent padding. No added text, no scenery, no extra figures. Clean antialiased edges suitable for small website interface illustrations."
+    },
+    {
+      "name": "researcher",
+      "prompt": "Edit the supplied WWMaps sprite sheet: extract ONLY the small suited researcher holding a magnifying glass in the TOP basic actions row, approximately x1117–1196 y48–138. Exclude adjacent laptop figure. Produce one isolated transparent PNG asset with fully transparent background. Faithfully preserve the original cartoon character, round peach head, expression, black hand drawn outlines, flat colors, pose, costume and props. This is an extraction, not a redesign. Remove the blurry sheet background completely, all category labels, nearby people, stray marks and shadows from the sheet. Preserve intentional black lines and opaque interiors. Full figure including feet and all props, centered, tightly framed with 8 percent transparent padding. No added text, no scenery, no extra figures. Clean antialiased edges suitable for small website interface illustrations."
+    },
+    {
+      "name": "map-reader",
+      "prompt": "Edit the supplied WWMaps sprite sheet: extract ONLY the suited map reader holding an unfolded map in the TOP row, approximately x1293–1366 y50–139. Exclude adjacent figures. Produce one isolated transparent PNG asset with fully transparent background. Faithfully preserve the original cartoon character, round peach head, expression, black hand drawn outlines, flat colors, pose, costume and props. This is an extraction, not a redesign. Remove the blurry sheet background completely, all category labels, nearby people, stray marks and shadows from the sheet. Preserve intentional black lines and opaque interiors. Full figure including feet and all props, centered, tightly framed with 8 percent transparent padding. No added text, no scenery, no extra figures. Clean antialiased edges suitable for small website interface illustrations."
+    },
+    {
+      "name": "chart-presenter",
+      "prompt": "Edit the supplied WWMaps sprite sheet: extract ONLY the economy presenter beside the white presentation board with a red rising arrow, approximately x994–1091 y199–296. Include both the person and chart board, exclude neighboring suitcase person and money bag. Produce one isolated transparent PNG asset with fully transparent background. Faithfully preserve the original cartoon character, round peach head, expression, black hand drawn outlines, flat colors, pose, costume and props. This is an extraction, not a redesign. Remove the blurry sheet background completely, all category labels, nearby people, stray marks and shadows from the sheet. Preserve intentional black lines and opaque interiors. Full figure including feet and all props, centered, tightly framed with 8 percent transparent padding. No added text, no scenery, no extra figures. Clean antialiased edges suitable for small website interface illustrations."
+    }
+  ]
+}

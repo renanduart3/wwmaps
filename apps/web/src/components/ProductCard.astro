@@ -1,0 +1,11 @@
+---
+import {tr,productText,type Locale} from '../lib/i18n';
+const { product,lang='en' as Locale } = Astro.props;
+const copy=productText(product,lang);
+---
+<article class="product-card">
+  <div class={`product-art ${product.art}`} aria-hidden="true">
+    {product.art === 'globe' ? <svg viewBox="0 0 160 120"><path d="M80 85v20m-24 0h48M105 18a43 43 0 0 1-46 73" fill="none" stroke="#6b5943" stroke-width="5"/><circle cx="78" cy="52" r="35" fill="#9eb5a5"/><path d="m51 30 22-10 5 16 17 5-8 15-15 3-8 25-8-17 6-20z" fill="#efe9cf"/><ellipse cx="78" cy="52" rx="18" ry="35" fill="none" stroke="#e8eedc"/><path d="M43 52h70" stroke="#e8eedc"/></svg> : <div class="product-paper"><span>WWMAPS<br/><strong>WORLD.</strong></span><svg viewBox="0 0 100 60"><path d="m4 15 21-10 15 9-8 10 9 13-8 21-13-24-15-4m44-13 15-13 28 8 7 16-26 4-9 23-13-10 2-20" fill="currentColor"/></svg><small>{tr(lang,'tagline')}</small></div>}
+  </div>
+  <div><span class="eyebrow">{copy.type}</span><h3>{copy.name}</h3><p>{copy.description}</p>{product.url ? <a class="product-link" href={product.url} target="_blank" rel="sponsored noopener noreferrer">{tr(lang,'store')} ↗</a> : <span class="product-link muted">{tr(lang,'productDemo')}</span>}</div>
+</article>

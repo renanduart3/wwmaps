@@ -1,0 +1,45 @@
+{
+  "requireExplicitStyle": true,
+  "styles": {
+    "handdraw-simple": {
+      "bestFor": [
+        "line-chart",
+        "bar-chart",
+        "ranking",
+        "comparison",
+        "simple-map",
+        "quick-explainer"
+      ]
+    },
+    "micro-people-data": {
+      "bestFor": [
+        "population-map",
+        "behavior-map",
+        "social-media-map",
+        "migration-map",
+        "usage-map",
+        "distribution-map",
+        "influence-map",
+        "activity-map"
+      ]
+    },
+    "editorial-data": {
+      "bestFor": [
+        "statistical-map",
+        "regional-comparison",
+        "ranking",
+        "historical-data-map",
+        "timeline-results",
+        "infographic-card"
+      ],
+      "role": "Primary editorial style for polished data communication; not narrative illustration."
+    }
+  },
+  "languageRule": "Instructions in English. Visible text only in the requested artwork language. Never translate quoted artwork text or mix languages.",
+  "editorialDataLayouts": {
+    "editorial-data-map": "Geographic categories or intensity by country/state.",
+    "editorial-data-ranking": "Geographic results reinforced by a supplied ranked list.",
+    "editorial-data-event-map": "Sourced event locations with dates or counts.",
+    "editorial-data-profile": "Sourced named people or profiles tied to countries/regions."
+  }
+}

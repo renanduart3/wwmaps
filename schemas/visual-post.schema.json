@@ -1,0 +1,268 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "status": {
+      "default": "draft",
+      "type": "string",
+      "enum": [
+        "draft",
+        "scheduled",
+        "published"
+      ]
+    },
+    "publishAt": {
+      "default": null,
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "style": {
+      "type": "string",
+      "enum": [
+        "handdraw-simple",
+        "editorial-data",
+        "micro-people-data"
+      ]
+    },
+    "category": {
+      "default": "geography",
+      "type": "string",
+      "enum": [
+        "geography",
+        "history",
+        "economy",
+        "geopolitics",
+        "culture",
+        "environment",
+        "society",
+        "technology",
+        "brazil",
+        "regional-intelligence",
+        "travel"
+      ]
+    },
+    "tags": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "languages": {
+      "default": [
+        "en"
+      ],
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "en",
+          "pt-BR"
+        ]
+      }
+    },
+    "visual": {
+      "default": {
+        "kind": "map",
+        "instructions": ""
+      },
+      "type": "object",
+      "properties": {
+        "kind": {
+          "default": "map",
+          "type": "string",
+          "enum": [
+            "map",
+            "bar-chart",
+            "line-chart",
+            "ranking",
+            "comparison",
+            "illustration"
+          ]
+        },
+        "instructions": {
+          "default": "",
+          "type": "string"
+        },
+        "layout": {
+          "type": "string",
+          "enum": [
+            "editorial-data-map",
+            "editorial-data-ranking",
+            "editorial-data-event-map",
+            "editorial-data-profile"
+          ]
+        }
+      }
+    },
+    "translations": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "enum": [
+          "en",
+          "pt-BR"
+        ]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 140
+          },
+          "subtitle": {
+            "default": "",
+            "type": "string",
+            "maxLength": 320
+          },
+          "body": {
+            "default": "",
+            "type": "string"
+          },
+          "caption": {
+            "default": "",
+            "type": "string"
+          },
+          "alt": {
+            "default": "",
+            "type": "string"
+          },
+          "sourceCredit": {
+            "default": "",
+            "type": "string"
+          },
+          "imageText": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "title"
+        ]
+      }
+    },
+    "sources": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "accessedAt": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "url",
+          "accessedAt"
+        ]
+      }
+    },
+    "facts": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "text",
+          "sourceIds"
+        ]
+      }
+    },
+    "data": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "period": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "label",
+          "value",
+          "unit",
+          "period",
+          "sourceIds"
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "style",
+    "translations"
+  ],
+  "additionalProperties": false
+}

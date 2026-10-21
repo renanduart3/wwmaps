@@ -1,0 +1,1 @@
+{"name":"@atlas/studio","version":"0.1.0","private":true,"type":"module","dependencies":{"@atlas/ai":"0.1.0","@atlas/content-store":"0.1.0","@atlas/contracts":"0.1.0","@atlas/content-engine":"0.1.0","@atlas/prompts":"0.1.0","@atlas/renderer":"0.1.0","@atlas/validator":"0.1.0"}}

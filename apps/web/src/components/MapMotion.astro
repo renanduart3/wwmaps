@@ -1,0 +1,78 @@
+---
+import { mapMotion } from '../config/map-motion';
+import { tr, type Locale } from '../lib/i18n';
+const { lang = 'en' } = Astro.props as { lang?: Locale };
+const copy = {
+  source: tr(lang,'motionSource'), effect: tr(lang,'motionAmbient'), pause: tr(lang,'motionPause'), play: tr(lang,'motionPlay'), reduced: tr(lang,'motionReduced'),
+};
+---
+{mapMotion.enabled ? <div class="map-motion" data-map-motion data-motion="paused" data-pause-label={copy.pause} data-play-label={copy.play} data-reduced-label={copy.reduced}>
+  <div class="motion-stage">
+    <svg class="motion-atmosphere" viewBox="0 0 800 410" aria-hidden="true" focusable="false">
+      <defs><linearGradient id="wwmaps-ambient-sweep"><stop stop-color="#7132df" stop-opacity="0"/><stop offset=".75" stop-color="#7132df" stop-opacity=".075"/><stop offset="1" stop-color="#7132df" stop-opacity="0"/></linearGradient><radialGradient id="wwmaps-ambient-halo"><stop stop-color="#7132df" stop-opacity=".075"/><stop offset="1" stop-color="#7132df" stop-opacity="0"/></radialGradient></defs>
+      <ellipse class="motion-halo" cx="400" cy="220" rx="350" ry="190" fill="url(#wwmaps-ambient-halo)"/>
+      <g fill="none" stroke="#7132df" stroke-width=".8" opacity=".13">
+        <ellipse cx="400" cy="205" rx="360" ry="150" transform="rotate(-12 400 205)"/>
+        <path d="M60 260 Q400 70 740 260"/>
+        <ellipse class="motion-orbit" cx="400" cy="205" rx="335" ry="110" transform="rotate(16 400 205)" stroke-width="1.3" stroke-dasharray="3 24"/>
+      </g>
+      <rect class="motion-sweep" x="-240" y="10" width="220" height="390" fill="url(#wwmaps-ambient-sweep)"/>
+    </svg>
+    <slot/>
+  </div>
+  <div class="motion-toolbar"><span class="motion-source"><i aria-hidden="true"></i>{copy.source}<span class="motion-separator" aria-hidden="true">/</span><span>{copy.effect}</span></span><button type="button" data-motion-toggle aria-pressed="false" hidden>{copy.play}</button></div>
+</div> : <slot/>}
+
+<style>
+  .map-motion{--motion-ink:#7132df}
+  .motion-stage{position:relative;isolation:isolate;overflow:hidden;border-radius:10px;background:#faf5e9}
+  .motion-atmosphere{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1}
+  .map-motion .motion-stage :global(.world-map){position:relative;display:block}
+  .map-motion .motion-stage :global(.world-map > rect:first-of-type){fill:transparent}
+  .motion-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:8px 1px 12px;font-size:10px;color:#6b6074}
+  .motion-source{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .motion-source i{width:5px;height:5px;border-radius:50%;background:var(--motion-ink);opacity:.7}
+  .motion-separator{color:#c4b3d0}
+  .motion-toolbar button{border:1px solid #d7c8db;background:#f4ecfb;color:#512291;border-radius:20px;padding:6px 11px;font-size:10px;line-height:1.2;cursor:pointer}
+  .motion-toolbar button:hover{background:#eadef8}
+  .motion-toolbar button:disabled{cursor:default;opacity:.7}
+  .motion-toolbar button[hidden]{display:none}
+  .motion-sweep{animation:map-ambient-sweep 18s linear infinite;animation-delay:-7s}
+  .motion-orbit{animation:map-ambient-orbit 22s linear infinite}
+  .motion-halo{animation:map-ambient-breathe 9s ease-in-out infinite}
+  .motion-source i{animation:map-ambient-breathe 5s ease-in-out infinite}
+  .map-motion[data-motion=paused] .motion-sweep,.map-motion[data-motion=paused] .motion-orbit,.map-motion[data-motion=paused] .motion-halo,.map-motion[data-motion=paused] .motion-source i{animation-play-state:paused}
+  .map-motion[data-motion=running] :global([data-country]){transition:fill .7s ease,stroke .22s ease}
+  @keyframes map-ambient-sweep{from{transform:translateX(0)}to{transform:translateX(1060px)}}
+  @keyframes map-ambient-orbit{to{stroke-dashoffset:-216}}
+  @keyframes map-ambient-breathe{0%,100%{opacity:.45}50%{opacity:1}}
+  @media(prefers-reduced-motion:reduce){.map-motion *{animation:none!important}.map-motion :global([data-country]){transition:none!important}}
+  @media print{.motion-atmosphere,.motion-toolbar{display:none}}
+</style>
+<script>
+for(const root of document.querySelectorAll<HTMLElement>('[data-map-motion]')){
+  const button=root.querySelector<HTMLButtonElement>('[data-motion-toggle]')!;
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  let userPaused=false, inView=true;
+  try{userPaused=localStorage.getItem('wwmaps:map-motion')==='off';}catch{/* Storage may be unavailable. */}
+  function sync(){
+    const enabled=!userPaused&&!reduced.matches;
+    root.dataset.motion=enabled&&inView&&!document.hidden?'running':'paused';
+    button.disabled=reduced.matches;
+    button.setAttribute('aria-pressed',String(enabled));
+    button.textContent=(reduced.matches?root.dataset.reducedLabel:userPaused?root.dataset.playLabel:root.dataset.pauseLabel)!;
+  }
+  button.addEventListener('click',()=>{
+    userPaused=!userPaused;
+    try{localStorage.setItem('wwmaps:map-motion',userPaused?'off':'on');}catch{/* Keep the setting for this page. */}
+    sync();
+  });
+  reduced.addEventListener('change',sync);
+  document.addEventListener('visibilitychange',sync);
+  if('IntersectionObserver' in window){
+    const observer=new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;sync();},{threshold:0});
+    observer.observe(root);
+  }
+  button.hidden=false;sync();
+}
+</script>

@@ -1,0 +1,19 @@
+---
+import {visualText,metricText,tr,type Locale} from '../lib/i18n';
+import {route} from '../lib/routes';
+import { data, palettes } from '../lib/atlas';
+import { categoryLabel } from '@atlas/contracts';
+const { visual,lang='en' as Locale } = Astro.props;
+const copy=visualText(visual,lang);
+const indicator = data.indicators.find(i => i.id === visual.indicator)!;
+const label = categoryLabel(indicator.category,lang);
+---
+<a class="visual-card" href={route('visual',lang,visual.slug)} data-visual data-category={indicator.category} data-search={`${copy.title} ${copy.subtitle} ${label} ${categoryLabel(indicator.category)}`.toLocaleLowerCase('pt-BR')}>
+  <div class={`visual-art variant-${visual.variant}`} style={`--card-accent:${palettes[visual.variant]}`}>
+    <div class="art-kicker">WWMAPS / VISUAL DATA <span>DEMO</span></div>
+    <h3>{copy.title}</h3>
+    <img class="world-map" src={`/maps/${indicator.id}-${[270,35,280,345][visual.variant]}.svg`} alt={`${tr(lang,'demoVisual')}: ${metricText(indicator.id,lang).label}`} loading="lazy" width="800" height="410"/>
+    <div class="art-bottom"><span>{tr(lang,'tagline')}</span><span>↗</span></div>
+  </div>
+  <div class="visual-caption"><span class="eyebrow">{label}</span><h3>{copy.title}</h3><p>{copy.subtitle}</p></div>
+</a>

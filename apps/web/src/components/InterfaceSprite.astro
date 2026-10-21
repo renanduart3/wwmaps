@@ -1,0 +1,18 @@
+---
+import {interfaceSprites} from '../config/interface-sprites';
+interface Props {
+  name: 'mascot' | 'researcher' | 'map-reader' | 'chart-presenter' | 'laptop-analyst' | 'traveler' | 'gardener';
+  size?: number;
+  badge?: boolean;
+  eager?: boolean;
+}
+const {name,size=110,badge=false,eager=false}=Astro.props;
+---
+{interfaceSprites.enabled && <span class:list={['interface-sprite',{'sprite-badge':badge}]} aria-hidden="true" style={`--sprite-size:${size}px`}><img src={`/sprites/${name}.png`} alt="" width="160" height="180" loading={eager?'eager':'lazy'} decoding="async"/></span>}
+<style>
+.interface-sprite{display:inline-flex;align-items:center;justify-content:center;width:var(--sprite-size);height:calc(var(--sprite-size) * 1.12);flex:0 0 auto;pointer-events:none;user-select:none}
+.interface-sprite img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 5px #281a3b0d)}
+.interface-sprite.sprite-badge{height:var(--sprite-size);background:#faf5e9;border-radius:50%;border:1px solid #b998e655;padding:3px}
+@media(max-width:600px){.interface-sprite{width:min(var(--sprite-size),76px);height:calc(min(var(--sprite-size),76px) * 1.12)}.interface-sprite.sprite-badge{height:min(var(--sprite-size),76px)}}
+@media print{.interface-sprite{display:none}}
+</style>

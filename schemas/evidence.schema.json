@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "topic": {
+      "type": "string",
+      "minLength": 1
+    },
+    "angle": {
+      "type": "string",
+      "minLength": 1
+    },
+    "audience": {
+      "default": "general",
+      "type": "string"
+    },
+    "sensitiveContent": {
+      "default": false,
+      "type": "boolean"
+    },
+    "category": {
+      "default": "geography",
+      "type": "string",
+      "enum": [
+        "geography",
+        "history",
+        "economy",
+        "geopolitics",
+        "culture",
+        "environment",
+        "society",
+        "technology",
+        "brazil",
+        "regional-intelligence",
+        "travel"
+      ]
+    },
+    "contentType": {
+      "default": "map-analysis",
+      "type": "string",
+      "enum": [
+        "map-analysis",
+        "statistical-geography",
+        "regional-intelligence",
+        "comparative-insight"
+      ]
+    },
+    "mapType": {
+      "default": "projection-comparison",
+      "type": "string",
+      "const": "projection-comparison"
+    },
+    "geographicScope": {
+      "default": "world",
+      "type": "string",
+      "enum": [
+        "world",
+        "continent",
+        "country",
+        "multi-country",
+        "region",
+        "state",
+        "municipality",
+        "historical-region"
+      ]
+    },
+    "commercialPurpose": {
+      "default": [
+        "audience-growth"
+      ],
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "audience-growth",
+          "education",
+          "products",
+          "affiliates",
+          "b2b"
+        ]
+      }
+    },
+    "tags": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      }
+    },
+    "languages": {
+      "default": [
+        "en",
+        "pt-BR"
+      ],
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "pt-BR",
+          "en"
+        ]
+      }
+    },
+    "distribution": {
+      "default": [
+        "site",
+        "instagram"
+      ],
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "site",
+          "instagram"
+        ]
+      }
+    },
+    "visualizationType": {
+      "default": "projection-comparison",
+      "type": "string",
+      "const": "projection-comparison"
+    },
+    "sources": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "accessedAt": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "publisher": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "url",
+          "accessedAt",
+          "publisher"
+        ]
+      }
+    },
+    "claims": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dataIds": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "text",
+          "sourceIds"
+        ]
+      }
+    },
+    "data": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "value",
+          "unit",
+          "sourceIds"
+        ]
+      }
+    }
+  },
+  "required": [
+    "topic",
+    "angle",
+    "sources",
+    "claims"
+  ]
+}

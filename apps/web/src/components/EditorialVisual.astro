@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import {visualPostUrl,postImage} from '../lib/visual-posts';
+import {contentText} from '../lib/content-i18n';
+import {categoryLabel,type VisualPost} from '@atlas/contracts';
+import {route} from '../lib/routes';
+import type {Locale} from '../lib/i18n';
+import {visualPostVisible} from '@atlas/content-store';
+const {post,lang}=Astro.props as {post:VisualPost;lang:Locale};
+const copy=post.translations[lang]!,t=contentText(lang),image=await postImage(post,lang),visible=visualPostVisible(post);
+---
+<Base title={copy.title} description={copy.subtitle} lang={lang} image={image??undefined} noindex={!visible} alternates={Object.fromEntries(post.languages.map(l=>[l,visualPostUrl(post,l)]))}>
+  <div class="container editorial-post"><a class="eyebrow" href={route('home',lang)}>← {t.back}</a>
+    {!visible&&<p class="compare-notice">{t.preview} · {t[post.status]}</p>}
+    <header><span class="eyebrow">{categoryLabel(post.category,lang)} · {post.style}</span><h1>{copy.title}</h1><p>{copy.subtitle}</p>{post.publishAt&&<small>{t.period}: {new Date(post.publishAt).toLocaleString(lang,{timeZone:'America/Sao_Paulo',dateStyle:'long',timeStyle:'short'})} (São Paulo)</small>}</header>
+    <figure>{image?<><img src={image} alt={copy.alt} width="1080" height="1350"/><figcaption>{copy.sourceCredit}</figcaption></>:<div class="awaiting-image"><strong>{t.saveImage}</strong><code>content/visuals/{post.id}/image.{lang}.png</code></div>}</figure>
+    {image&&<a class="button" href={image} download>{t.download} ↓</a>}
+    {copy.body&&<article>{copy.body.split(/\n\s*\n/).map(paragraph=><p>{paragraph}</p>)}</article>}
+    {!!post.sources.length&&<section class="editorial-sources"><h2>{t.sources}</h2>{post.sources.map(source=><p><a href={source.url} rel="noopener noreferrer" target="_blank">{source.title} ↗</a><small>{source.accessedAt}</small></p>)}</section>}
+  </div>
+</Base>
+<style>.editorial-post{max-width:940px;padding-block:35px 75px}.editorial-post header{margin:35px 0}.editorial-post h1{font-family:var(--display);font-weight:800;font-style:italic;font-size:clamp(40px,6vw,70px);line-height:1.05}.editorial-post header p{font-size:19px;line-height:1.6;color:#62536f}.editorial-post small{font-size:12px;color:#62536f}.editorial-post figure{margin:25px 0;max-width:800px}.editorial-post figure img{display:block;width:100%;height:auto;border-radius:8px}.editorial-post figcaption{font-size:12px;padding:12px 0;color:#62536f}.awaiting-image{min-height:300px;background:#f1e7f9;border:1px dashed #ad8bc8;border-radius:10px;display:flex;flex-direction:column;justify-content:center;gap:20px;padding:25px;overflow-wrap:anywhere}.awaiting-image code{font-size:12px}.editorial-post article{max-width:760px;font-size:17px;line-height:1.8;margin-block:35px}.editorial-sources{border-top:1px solid #d7c8db;margin-top:30px;padding-top:20px}.editorial-sources p{display:flex;flex-direction:column;gap:8px;font-size:14px}</style>

@@ -1,0 +1,12 @@
+{
+  "name": "@atlas/content-store",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@atlas/contracts": "0.1.0",
+    "@atlas/validator": "0.1.0",
+    "@atlas/prompts": "0.1.0"
+  }
+}

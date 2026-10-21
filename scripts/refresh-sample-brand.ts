@@ -1,0 +1,14 @@
+import {readFile,writeFile,cp,mkdir} from 'node:fs/promises';
+import {resolve,join} from 'node:path';
+import {briefSchema} from '@atlas/contracts';
+import {renderAssets} from '@atlas/renderer';
+import {createImagePrompt} from '@atlas/prompts';
+const root=resolve(import.meta.dirname,'..');
+const dir=join(root,'content/posts/mercator-vs-equal-area');
+const brief=briefSchema.parse(JSON.parse(await readFile(join(root,'briefs/mercator.json'),'utf8')));
+const styled={...brief,visual:{...brief.visual,accent:'#7132df'}};
+const backup=join(root,'output/branding-backup',String(Date.now()));await mkdir(backup,{recursive:true});
+await cp(join(dir,'assets'),join(backup,'assets'),{recursive:true});await cp(join(dir,'image-prompt.json'),join(backup,'image-prompt.json'));
+await renderAssets(styled,join(dir,'assets'));
+await writeFile(join(dir,'image-prompt.json'),JSON.stringify(createImagePrompt(styled),null,2)+'\n');
+console.log('Sample assets refreshed with WWMaps colors and mark. Original assets backed up in output/branding-backup. Publication state and editorial text unchanged.');

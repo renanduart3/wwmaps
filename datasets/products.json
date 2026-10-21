@@ -1,0 +1,26 @@
+[
+  {
+    "id": "atlas",
+    "name": "Atlas de mesa",
+    "description": "Um mundo de descobertas para sua estante.",
+    "type": "Livro",
+    "art": "book",
+    "url": null
+  },
+  {
+    "id": "print",
+    "name": "O mundo na parede",
+    "description": "Cartografia para transformar seu espaço.",
+    "type": "Pôster",
+    "art": "print",
+    "url": null
+  },
+  {
+    "id": "globe",
+    "name": "Globo de explorador",
+    "description": "Uma nova perspectiva para sua mesa.",
+    "type": "Decoração",
+    "art": "globe",
+    "url": null
+  }
+]

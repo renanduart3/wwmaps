@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "visualMode": {
+      "type": "string",
+      "enum": [
+        "playful-editorial",
+        "analytical-editorial"
+      ]
+    },
+    "sensitiveContent": {
+      "default": false,
+      "type": "boolean"
+    },
+    "topic": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "geography",
+        "history",
+        "economy",
+        "geopolitics",
+        "culture",
+        "environment",
+        "society",
+        "technology",
+        "brazil",
+        "regional-intelligence",
+        "travel"
+      ]
+    },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "map-analysis",
+        "statistical-geography",
+        "regional-intelligence",
+        "comparative-insight"
+      ]
+    },
+    "mapType": {
+      "type": "string",
+      "enum": [
+        "choropleth",
+        "highlight",
+        "bubble",
+        "flow",
+        "historical-timeline",
+        "projection-comparison",
+        "comparative",
+        "regional-heatmap"
+      ]
+    },
+    "geographicScope": {
+      "type": "string",
+      "enum": [
+        "world",
+        "continent",
+        "country",
+        "multi-country",
+        "region",
+        "state",
+        "municipality",
+        "historical-region"
+      ]
+    },
+    "commercialPurpose": {
+      "default": [
+        "audience-growth"
+      ],
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "audience-growth",
+          "education",
+          "products",
+          "affiliates",
+          "b2b"
+        ]
+      }
+    },
+    "languages": {
+      "default": [
+        "en",
+        "pt-BR"
+      ],
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "en",
+          "pt-BR"
+        ]
+      }
+    },
+    "outputs": {
+      "default": [
+        "website-visual",
+        "instagram-image",
+        "instagram-caption"
+      ],
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "website-visual",
+          "website-article",
+          "instagram-image",
+          "instagram-caption"
+        ]
+      }
+    }
+  },
+  "required": [
+    "topic",
+    "category",
+    "contentType",
+    "mapType",
+    "geographicScope"
+  ],
+  "additionalProperties": false
+}

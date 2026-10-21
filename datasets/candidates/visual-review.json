@@ -1,0 +1,291 @@
+{
+  "status": "pending-human-approval",
+  "activeCopyChanged": false,
+  "entries": [
+    {
+      "slug": "visual-1",
+      "indicator": "gdp",
+      "status": "proposal-pending-human-approval",
+      "current": {
+        "en": {
+          "title": "The size of economies",
+          "subtitle": "A country-by-country view of GDP."
+        },
+        "pt-BR": {
+          "slug": "visual-1",
+          "title": "O tamanho das economias",
+          "subtitle": "Uma visão do PIB, país por país.",
+          "indicator": "gdp",
+          "variant": 0
+        }
+      },
+      "proposed": null,
+      "reviewNote": "Neutral framing. Before activation, verify the chosen year, source coverage, labels, numbers and source-specific limitations; do not reuse synthetic conclusions."
+    },
+    {
+      "slug": "visual-2",
+      "indicator": "income",
+      "status": "proposal-pending-human-approval",
+      "current": {
+        "en": {
+          "title": "Income in perspective",
+          "subtitle": "Compare income per person."
+        },
+        "pt-BR": {
+          "slug": "visual-2",
+          "title": "Renda em perspectiva",
+          "subtitle": "Compare o PIB por habitante.",
+          "indicator": "income",
+          "variant": 1
+        }
+      },
+      "proposed": {
+        "en": {
+          "title": "GDP per person",
+          "subtitle": "Economic output per resident, not household income."
+        },
+        "pt-BR": {
+          "title": "PIB por habitante",
+          "subtitle": "Produção econômica por pessoa, não renda domiciliar."
+        }
+      },
+      "reviewNote": "GDP per capita is not household income. Avoid labeling it simply income."
+    },
+    {
+      "slug": "visual-3",
+      "indicator": "birth",
+      "status": "proposal-pending-human-approval",
+      "current": {
+        "en": {
+          "title": "A world of new generations",
+          "subtitle": "Explore birth rates around the world."
+        },
+        "pt-BR": {
+          "slug": "visual-3",
+          "title": "Um mundo de novas gerações",
+          "subtitle": "Como observar a taxa de natalidade.",
+          "indicator": "birth",
+          "variant": 2
+        }
+      },
+      "proposed": null,
+      "reviewNote": "Neutral framing. Before activation, verify the chosen year, source coverage, labels, numbers and source-specific limitations; do not reuse synthetic conclusions."
+    },
+    {
+      "slug": "visual-4",
+      "indicator": "life",
+      "status": "proposal-pending-human-approval",
+      "current": {
+        "en": {
+          "title": "Living longer, living better",
+          "subtitle": "Life expectancy on a map."
+        },
+        "pt-BR": {
+          "slug": "visual-4",
+          "title": "Viver mais, viver melhor",
+          "subtitle": "A expectativa de vida em um mapa.",
+          "indicator": "life",
+          "variant": 3
+        }
+      },
+      "proposed": {
+        "en": {
+          "title": "Life expectancy around the world",
+          "subtitle": "A period mortality indicator, shown by country."
+        },
+        "pt-BR": {
+          "title": "Expectativa de vida pelo mundo",
+          "subtitle": "Um indicador de mortalidade de período, por país."
+        }
+      },
+      "reviewNote": "Life expectancy does not itself establish quality of life or living better."
+    },
+    {
+      "slug": "visual-5",
+      "indicator": "poverty",
+      "status": "proposal-pending-human-approval",
+      "current": {
+        "en": {
+          "title": "The many faces of poverty",
+          "subtitle": "One indicator, different contexts."
+        },
+        "pt-BR": {
+          "slug": "visual-5",
+          "title": "As muitas faces da pobreza",
+          "subtitle": "Um indicador, diferentes contextos.",
+          "indicator": "poverty",
+          "variant": 0
+        }
+      },
+      "proposed": {
+        "en": {
+          "title": "Extreme poverty in perspective",
+          "subtitle": "Below US$3.00/day at 2021 PPP; coverage varies by survey."
+        },
+        "pt-BR": {
+          "title": "Pobreza extrema em perspectiva",
+          "subtitle": "Abaixo de US$3/dia em PPC 2021; cobertura varia por pesquisa."
+        }
+      },
+      "reviewNote": "Specify the poverty threshold and PPP vintage."
+    },
+    {
+      "slug": "visual-6",
+      "indicator": "homicide",
+      "status": "proposal-pending-human-approval",
+      "current": {
+        "en": {
+          "title": "Safety in numbers",
+          "subtitle": "Homicide rates across countries."
+        },
+        "pt-BR": {
+          "slug": "visual-6",
+          "title": "Segurança em números",
+          "subtitle": "Homicídios e diferenças entre países.",
+          "indicator": "homicide",
+          "variant": 1
+        }
+      },
+      "proposed": {
+        "en": {
+          "title": "Intentional homicides by country",
+          "subtitle": "Rates per 100,000 people; compare the same available year."
+        },
+        "pt-BR": {
+          "title": "Homicídios intencionais por país",
+          "subtitle": "Taxas por 100 mil; compare o mesmo ano disponível."
+        }
+      },
+      "reviewNote": "Intentional homicide rates do not measure all aspects of safety. No 2024 observations in this import."
+    },
+    {
+      "slug": "visual-7",
+      "indicator": "gdp",
+      "status": "proposal-pending-human-approval",
+      "current": {
+        "en": {
+          "title": "Economies through time",
+          "subtitle": "Explore fifteen years of data."
+        },
+        "pt-BR": {
+          "slug": "visual-7",
+          "title": "Economias ao longo do tempo",
+          "subtitle": "Explore quinze anos de uma série.",
+          "indicator": "gdp",
+          "variant": 2
+        }
+      },
+      "proposed": null,
+      "reviewNote": "Neutral framing. Before activation, verify the chosen year, source coverage, labels, numbers and source-specific limitations; do not reuse synthetic conclusions."
+    },
+    {
+      "slug": "visual-8",
+      "indicator": "income",
+      "status": "proposal-pending-human-approval",
+      "current": {
+        "en": {
+          "title": "Beyond a country’s size",
+          "subtitle": "Income per person and its limitations."
+        },
+        "pt-BR": {
+          "slug": "visual-8",
+          "title": "Além do tamanho do país",
+          "subtitle": "Renda por pessoa e suas limitações.",
+          "indicator": "income",
+          "variant": 3
+        }
+      },
+      "proposed": {
+        "en": {
+          "title": "Beyond a country’s size",
+          "subtitle": "GDP per person, and what it cannot tell us."
+        },
+        "pt-BR": {
+          "title": "Além do tamanho do país",
+          "subtitle": "PIB por pessoa e os limites desse indicador."
+        }
+      },
+      "reviewNote": "GDP per person should not be described as average personal income."
+    },
+    {
+      "slug": "visual-9",
+      "indicator": "birth",
+      "status": "proposal-pending-human-approval",
+      "current": {
+        "en": {
+          "title": "The rhythm of population",
+          "subtitle": "Birth rates from a new perspective."
+        },
+        "pt-BR": {
+          "slug": "visual-9",
+          "title": "O ritmo da população",
+          "subtitle": "Natalidade sob uma nova perspectiva.",
+          "indicator": "birth",
+          "variant": 0
+        }
+      },
+      "proposed": null,
+      "reviewNote": "Neutral framing. Before activation, verify the chosen year, source coverage, labels, numbers and source-specific limitations; do not reuse synthetic conclusions."
+    },
+    {
+      "slug": "visual-10",
+      "indicator": "life",
+      "status": "proposal-pending-human-approval",
+      "current": {
+        "en": {
+          "title": "A window into longevity",
+          "subtitle": "Compare trajectories, not just positions."
+        },
+        "pt-BR": {
+          "slug": "visual-10",
+          "title": "Uma janela para a longevidade",
+          "subtitle": "Compare trajetórias, não só posições.",
+          "indicator": "life",
+          "variant": 1
+        }
+      },
+      "proposed": null,
+      "reviewNote": "Neutral framing. Before activation, verify the chosen year, source coverage, labels, numbers and source-specific limitations; do not reuse synthetic conclusions."
+    },
+    {
+      "slug": "visual-11",
+      "indicator": "poverty",
+      "status": "proposal-pending-human-approval",
+      "current": {
+        "en": {
+          "title": "Read the data with care",
+          "subtitle": "Poverty, definitions and comparability."
+        },
+        "pt-BR": {
+          "slug": "visual-11",
+          "title": "Ler os dados com cuidado",
+          "subtitle": "Pobreza, definições e comparabilidade.",
+          "indicator": "poverty",
+          "variant": 2
+        }
+      },
+      "proposed": null,
+      "reviewNote": "Neutral framing. Before activation, verify the chosen year, source coverage, labels, numbers and source-specific limitations; do not reuse synthetic conclusions."
+    },
+    {
+      "slug": "visual-12",
+      "indicator": "homicide",
+      "status": "proposal-pending-human-approval",
+      "current": {
+        "en": {
+          "title": "What a map cannot tell",
+          "subtitle": "Rates, coverage and social context."
+        },
+        "pt-BR": {
+          "slug": "visual-12",
+          "title": "O que um mapa não conta",
+          "subtitle": "Taxas, cobertura e contexto social.",
+          "indicator": "homicide",
+          "variant": 3
+        }
+      },
+      "proposed": null,
+      "reviewNote": "Neutral framing. Before activation, verify the chosen year, source coverage, labels, numbers and source-specific limitations; do not reuse synthetic conclusions."
+    }
+  ]
+}

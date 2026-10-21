@@ -1,0 +1,47 @@
+{
+  "format": "instagram-4x5",
+  "width": 1080,
+  "height": 1350,
+  "style": "minimal editorial infographic",
+  "objective": "A projeção de Mercator amplia áreas próximas aos polos; uma projeção equivalente preserva as proporções de área.",
+  "mainTitle": "MAPAS MUDAM ESCALAS",
+  "subtitle": "Mercator × projeção equivalente",
+  "visualizationType": "projection-comparison",
+  "category": "geography",
+  "contentType": "map-analysis",
+  "mapType": "projection-comparison",
+  "geographicScope": "world",
+  "commercialPurpose": [
+    "audience-growth"
+  ],
+  "brand": {
+    "name": "WWMaps",
+    "domain": "wwmaps.com",
+    "primary": "#7132DF",
+    "background": "#FAF5E9",
+    "highlight": "#BE2349",
+    "typography": "Condensed bold italic display headings; readable sans-serif body and numbers"
+  },
+  "factualClaims": [
+    {
+      "text": "A projeção de Mercator distorce muito áreas próximas às regiões polares.",
+      "sourceIds": [
+        "usgs-projections"
+      ]
+    },
+    {
+      "text": "Um mapa plano não preserva simultaneamente área, forma, distância e direção em toda a Terra.",
+      "sourceIds": [
+        "usgs-projections"
+      ]
+    }
+  ],
+  "constraints": [
+    "High contrast",
+    "Legible typography",
+    "No invented labels or numbers",
+    "Show projection name",
+    "Review geography before publication"
+  ],
+  "prompt": "Create a WWMaps editorial infographic in 4:5 format. Use dominant purple #7132DF, light beige #FAF5E9 and crimson #BE2349 highlights. Use condensed bold italic headings and readable sans-serif body text and numbers. Topic: mercator-vs-equal-area. Insight: A projeção de Mercator amplia áreas próximas aos polos; uma projeção equivalente preserva as proporções de área.. Title: MAPAS MUDAM ESCALAS. Subtitle: Mercator × projeção equivalente. Use a clearly labeled schematic Mercator versus equal-area comparison. Use only the supplied source-backed claims and data. Do not invent any quantities or geographic boundaries. Credit wwmaps.com."
+}

@@ -1,0 +1,235 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "published"
+      ]
+    },
+    "publishedAt": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "geography",
+        "history",
+        "economy",
+        "geopolitics",
+        "culture",
+        "environment",
+        "society",
+        "technology",
+        "brazil",
+        "regional-intelligence",
+        "travel"
+      ]
+    },
+    "contentType": {
+      "default": "map-analysis",
+      "type": "string",
+      "enum": [
+        "map-analysis",
+        "statistical-geography",
+        "regional-intelligence",
+        "comparative-insight"
+      ]
+    },
+    "mapType": {
+      "default": "projection-comparison",
+      "type": "string",
+      "const": "projection-comparison"
+    },
+    "geographicScope": {
+      "default": "world",
+      "type": "string",
+      "enum": [
+        "world",
+        "continent",
+        "country",
+        "multi-country",
+        "region",
+        "state",
+        "municipality",
+        "historical-region"
+      ]
+    },
+    "commercialPurpose": {
+      "default": [
+        "audience-growth"
+      ],
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "audience-growth",
+          "education",
+          "products",
+          "affiliates",
+          "b2b"
+        ]
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      }
+    },
+    "languages": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "pt-BR",
+          "en"
+        ]
+      }
+    },
+    "distribution": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "site",
+          "instagram"
+        ]
+      }
+    },
+    "translations": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "enum": [
+          "pt-BR",
+          "en"
+        ]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "slug": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "title",
+          "slug",
+          "summary"
+        ]
+      }
+    },
+    "visualization": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "projection-comparison"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "playful-editorial",
+            "analytical-editorial"
+          ]
+        },
+        "primaryAsset": {
+          "type": "string"
+        },
+        "supportingAsset": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "primaryAsset",
+        "supportingAsset"
+      ]
+    },
+    "seo": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "enum": [
+          "pt-BR",
+          "en"
+        ]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "title",
+          "description"
+        ]
+      }
+    },
+    "monetization": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "none"
+        },
+        "cta": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "type",
+        "cta"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "status",
+    "publishedAt",
+    "category",
+    "tags",
+    "languages",
+    "distribution",
+    "translations",
+    "visualization",
+    "seo",
+    "monetization"
+  ]
+}

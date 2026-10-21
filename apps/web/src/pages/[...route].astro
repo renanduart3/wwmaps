@@ -1,0 +1,9 @@
+---
+import {pageEntries} from '../lib/page-entries';
+import PageView from '../components/PageView.astro';
+import DataReview from '../components/DataReview.astro';
+export async function getStaticPaths(){return (await pageEntries()).map(entry=>({params:{route:entry.path.slice(1,-1)},props:entry}));}
+const props=Astro.props;
+if(props.redirect)return Astro.redirect(props.redirect,301);
+---
+{props.page==='indicators'||props.page==='dataReview'?<DataReview lang={props.lang} review={props.page==='dataReview'}/>:<PageView {...props}/>}

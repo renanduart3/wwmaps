@@ -1,0 +1,42 @@
+{
+  "name": "atlas-studio",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "atlas": "tsx apps/studio/src/cli.ts",
+    "dev": "npm run dev -w @atlas/web",
+    "start": "npm run dev",
+    "build": "npm run build -w @atlas/web",
+    "preview": "npm run build && npm run preview -w @atlas/web",
+    "deploy": "npm run build && npm run deploy -w @atlas/web",
+    "check": "tsc --noEmit && npm run check -w @atlas/web",
+    "validate": "tsx apps/studio/src/cli.ts validate --all",
+    "ai:doctor": "tsx apps/studio/src/cli.ts ai doctor",
+    "schemas": "tsx scripts/export-schemas.ts",
+    "functions:build": "npm run functions:build -w @atlas/web",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "data:validate": "tsx scripts/validate-dashboard.ts",
+    "plan:validate": "tsx scripts/validate-plan.ts",
+    "site:verify": "tsx scripts/verify-site.ts",
+    "data:import": "tsx scripts/import-worldbank.ts",
+    "data:verify-candidate": "tsx scripts/verify-candidate.ts",
+    "style:preview": "tsx scripts/content.ts prompts --all",
+    "content:analyze": "tsx scripts/content.ts analyze",
+    "content:prompts": "tsx scripts/content.ts prompts",
+    "content:check": "tsx scripts/content.ts check",
+    "content:catalog": "tsx scripts/content.ts catalog",
+    "content:due": "tsx scripts/publication-state.ts"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.8.0"
+  }
+}

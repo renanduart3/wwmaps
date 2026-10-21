@@ -1,0 +1,54 @@
+---
+import { tr, type Locale } from '../lib/i18n';
+import { route } from '../lib/routes';
+import Base from '../layouts/Base.astro';
+import InterfaceSprite from './InterfaceSprite.astro';
+import Dashboard from '../components/Dashboard.astro';
+import VisualCard from '../components/VisualCard.astro';
+import EditorialVisualCard from './EditorialVisualCard.astro';
+import {getVisualPosts} from '../lib/visual-posts';
+import ProductCard from '../components/ProductCard.astro';
+import { categories } from '@atlas/contracts';
+import { visuals, products } from '../lib/atlas';
+const {lang='en'}=Astro.props as {lang?:Locale};
+const t=(key:Parameters<typeof tr>[1])=>tr(lang,key);
+const editorialPosts=(await getVisualPosts()).filter(p=>p.languages.includes(lang));
+---
+<Base title={t('homeTitle')} lang={lang}><h1 class="sr-only">{t('homeTitle')}</h1>
+  <div class="atlas-shell container">
+    <div class="atlas-main"><Dashboard lang={lang}/>
+      <section class="visual-section" id="visuais" aria-labelledby="visual-heading">
+        <div class="section-heading gallery-heading"><div class="gallery-heading-title"><InterfaceSprite name="laptop-analyst" size={76}/><div><span class="eyebrow">{t('newPerspectives')}</span><h2 id="visual-heading">{t('galleryTitle')}</h2></div></div><span>{t('gallerySubtitle')}</span></div>
+        <div class="gallery-toolbar"><label class="category-select"><span class="sr-only">{t('category')}</span><select id="category-filter"><option value="all">{t('allCategories')}</option>{categories.map(c=><option value={c.id}>{lang==='en'?c.en:c.pt}</option>)}</select></label><a class="category-catalog" href={route('categories',lang)}>{t('catalog')}</a><label class="gallery-search"><span class="sr-only">{t('searchVisuals')}</span><span aria-hidden="true">⌕</span><input type="search" id="visual-search" placeholder={t('searchPlaceholder')}/></label></div>
+        <div class="visual-grid" data-editorial={editorialPosts.length?'true':'false'}>{editorialPosts.length?editorialPosts.map(post=><EditorialVisualCard post={post} lang={lang}/>):visuals.map(visual=><VisualCard visual={visual} lang={lang}/>)}</div>
+        <p id="gallery-empty" hidden>{t('noResults')}</p>
+        <div class="pagination"><span id="gallery-count" aria-live="polite"></span><div><button id="previous-page" aria-label={t('previous')}>←</button><span id="page-status"></span><button id="next-page" aria-label={t('next')}>→</button></div></div>
+      </section>
+    </div>
+    <aside class="shop-sidebar"><div class="sidebar-title"><InterfaceSprite name="traveler" size={88}/><span class="eyebrow">{t('curious')}</span><h2>{t('shopTitle')}</h2><p>{t('shopIntro')}</p></div>{products.map(product=><ProductCard product={product} lang={lang}/>)}<a class="all-products" href={route('collection',lang)}>{t('shopAll')} <span>↗</span></a><p class="affiliate-note">{t('affiliate')}</p><div class="sidebar-note"><InterfaceSprite name="researcher" size={104}/><h3>{t('dataStory')}</h3><p>{t('dataStoryIntro')}</p><a href={route('methodology',lang)}>{t('ourMethod')}</a></div></aside>
+  </div>
+</Base>
+<script>
+import {tr} from '../lib/i18n';
+import {contentText} from '../lib/content-i18n';
+const lang=document.documentElement.lang==='pt-BR'?'pt-BR':'en';
+const cards=Array.from(document.querySelectorAll<HTMLElement>('[data-visual]'));
+const requested=new URLSearchParams(location.search).get('category');
+let category=requested && document.querySelector(`#category-filter option[value="${CSS.escape(requested)}"]`) ? requested : 'all', query='', page=1; const size=8;
+const normalize=(s:string)=>s.normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase();
+function update(){
+  const filtered=cards.filter(c=>(category==='all'||c.dataset.category===category)&&normalize(c.dataset.search??'').includes(normalize(query)));
+  const pages=Math.max(1,Math.ceil(filtered.length/size)); page=Math.min(page,pages);
+  cards.forEach(c=>c.hidden=true);filtered.slice((page-1)*size,page*size).forEach(c=>c.hidden=false);
+  document.getElementById('gallery-empty')!.hidden=filtered.length>0;
+  document.getElementById('gallery-count')!.textContent=document.querySelector('.visual-grid')?.getAttribute('data-editorial')==='true'?contentText(lang).count.replace('{count}',String(filtered.length)):tr(lang,'visualCount',{count:filtered.length});
+  document.getElementById('page-status')!.textContent=`${page} / ${pages}`;
+  (document.getElementById('previous-page') as HTMLButtonElement).disabled=page===1;
+  (document.getElementById('next-page') as HTMLButtonElement).disabled=page===pages;
+}
+document.getElementById('category-filter')!.addEventListener('change',e=>{category=(e.target as HTMLSelectElement).value;page=1;update();});
+document.getElementById('visual-search')!.addEventListener('input',e=>{query=(e.target as HTMLInputElement).value;page=1;update();});
+for(const [id,delta] of [['previous-page',-1],['next-page',1]] as const)document.getElementById(id)!.addEventListener('click',()=>{page+=delta;update();document.getElementById('visuais')!.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});});
+(document.getElementById('category-filter') as HTMLSelectElement).value=category;
+update();
+</script>

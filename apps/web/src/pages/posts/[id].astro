@@ -1,0 +1,6 @@
+---
+import EditorialVisual from '../../components/EditorialVisual.astro';
+import {getVisualPosts} from '../../lib/visual-posts';
+export async function getStaticPaths(){return (await getVisualPosts()).filter(p=>p.languages.includes('en')).map(post=>({params:{id:post.id},props:{post}}));}
+---
+<EditorialVisual post={Astro.props.post} lang="en"/>

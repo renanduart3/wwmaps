@@ -1,0 +1,27 @@
+---
+import { tr, countryName, metricText, type Locale } from '../lib/i18n';
+import WorldMap from './WorldMap.astro';
+import MapMotion from './MapMotion.astro';
+import { data } from '../lib/atlas';
+import {route} from '../lib/routes';
+import {dataTr} from '../lib/data-i18n';
+const {lang='en'}=Astro.props as {lang?:Locale};
+const t=(key:Parameters<typeof tr>[1])=>tr(lang,key);
+const first=metricText(data.indicators[0].id,lang);
+---
+<section class="dashboard" aria-labelledby="dashboard-heading">
+  <div class="dashboard-top"><div><span class="eyebrow">{t('global')}</span><h2 id="dashboard-heading">{t('worldNumbers')}<span>.</span></h2><p>{t('exploreData')}</p></div><span class="demo-label">{t('demo')}</span></div>
+  <div class="indicator-tabs" role="group" aria-label={t('indicator')}>{data.indicators.map((i,n) => <button data-indicator={i.id} aria-pressed={n===0}>{metricText(i.id,lang).label}</button>)}</div>
+  <div class="map-layout">
+    <div class="map-panel"><div class="map-title"><div><h3 id="metric-name">{first.label}</h3><span id="metric-unit">{first.unit}</span></div><strong id="map-year">{data.years.at(-1)}</strong></div><MapMotion lang={lang}><WorldMap interactive lang={lang}/></MapMotion><div class="map-legend"><span>{t('lower')}</span><i></i><span>{t('higher')}</span><span class="no-data">{t('noData')}</span></div><p class="map-credit">{tr(lang,'mapCredit',{count:data.countries.length})}</p></div>
+    <div class="country-panel"><label for="country-select">{t('country')}</label><select id="country-select">{data.countries.map(c=><option value={c.id}>{countryName(c.iso3,lang)}</option>)}</select><div class="country-value" id="country-value"></div><span id="country-unit"></span><div class="chart-heading"><span>{t('history')}</span><span>{data.years[0]}—{data.years.at(-1)}</span></div><svg id="trend" viewBox="0 0 260 100" role="img" aria-label={t('indicatorHistory')}><path id="trend-area" fill="#e1eee6"/><path id="trend-line" fill="none" stroke="#24715e" stroke-width="3"/><circle id="trend-point" r="4" fill="#24715e"/></svg><div class="chart-heading"><span>{t('ranking')}</span><span id="ranking-year">{data.years.at(-1)}</span></div><ol id="ranking"></ol></div>
+  </div>
+  <div class="timeline"><button id="play-years" aria-pressed="false" aria-label={t('play')}>▶</button><span>{data.years[0]}</span><input id="year-slider" type="range" min="0" max={data.years.length-1} value={data.years.length-1} aria-label={t('year')}/><output id="year-output" for="year-slider">{data.years.at(-1)}</output><button id="cycle-metrics" aria-pressed="false">{t('cycle')}</button></div>
+  <div class="data-note"><span>{t('mockNotice')} {t('plannedSource')}: <a id="metric-source" href={data.indicators[0].source.url} target="_blank" rel="noopener">{t('worldBank')}</a> · <a href={route('indicators',lang)}>{dataTr(lang,'definitions')}</a></span><a href="/data/indicators.json" download>{t('download')}</a></div>
+  <noscript><p class="demo-label">{t('noscript')}</p></noscript>
+</section>
+<script>
+import data from '../../../../datasets/indicators.json';
+import { initDashboard } from '../lib/dashboard-client';
+initDashboard(data);
+</script>

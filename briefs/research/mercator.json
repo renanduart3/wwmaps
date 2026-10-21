@@ -1,0 +1,47 @@
+{
+  "topic": "mercator-ai-demo",
+  "angle": "A projeção de Mercator amplia áreas próximas aos polos; uma projeção equivalente preserva as proporções de área.",
+  "audience": "general",
+  "category": "geography",
+  "tags": [
+    "mapas",
+    "cartografia",
+    "projecoes"
+  ],
+  "languages": [
+    "pt-BR"
+  ],
+  "distribution": [
+    "site",
+    "instagram"
+  ],
+  "visualizationType": "projection-comparison",
+  "sources": [
+    {
+      "id": "usgs-projections",
+      "title": "How are different map projections used?",
+      "url": "https://www.usgs.gov/faqs/how-are-different-map-projections-used",
+      "accessedAt": "2026-10-20",
+      "publisher": "U.S. Geological Survey"
+    }
+  ],
+  "claims": [
+    {
+      "id": "mercator-distortion",
+      "text": "A projeção de Mercator distorce muito áreas próximas às regiões polares.",
+      "sourceIds": [
+        "usgs-projections"
+      ],
+      "dataIds": []
+    },
+    {
+      "id": "projection-tradeoff",
+      "text": "Um mapa plano não preserva simultaneamente área, forma, distância e direção em toda a Terra.",
+      "sourceIds": [
+        "usgs-projections"
+      ],
+      "dataIds": []
+    }
+  ],
+  "data": []
+}

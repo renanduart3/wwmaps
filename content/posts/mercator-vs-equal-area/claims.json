@@ -1,0 +1,18 @@
+[
+  {
+    "id": "mercator-distortion",
+    "text": "A projeção de Mercator distorce muito áreas próximas às regiões polares.",
+    "sourceIds": [
+      "usgs-projections"
+    ],
+    "dataIds": []
+  },
+  {
+    "id": "projection-tradeoff",
+    "text": "Um mapa plano não preserva simultaneamente área, forma, distância e direção em toda a Terra.",
+    "sourceIds": [
+      "usgs-projections"
+    ],
+    "dataIds": []
+  }
+]

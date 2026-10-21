@@ -1,0 +1,12 @@
+{
+  "workflow":"external-images",
+  "imageProduction":"prompts-only",
+  "styles":["handdraw-simple","editorial-data","micro-people-data"],
+  "selection":"Explicit per post or explicit batch default; never silently override the selected style.",
+  "promptLanguage":"en",
+  "artworkLanguages":["en","pt-BR"],
+  "brand":{"name":"WWMaps","domain":"wwmaps.com","primary":"#7132DF","paper":"#FAF5E9","highlight":"#BE2349"},
+  "templates":"styles/prompt-templates.json",
+  "rules":"styles/style-selection-rules.json",
+  "guide":"visual-styles.md"
+}

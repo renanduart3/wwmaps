@@ -1,0 +1,11 @@
+---
+import {tr,countryName,metricText,type Locale} from '../lib/i18n';
+import { shapes, data, valueFor, colorFor } from '../lib/atlas';
+const { indicator = data.indicators[0], interactive = false, hue = 270, lang = 'en' as Locale } = Astro.props;
+const max = Math.max(1, ...(Object.values(indicator.values).flat() as (number|null)[]).filter((v): v is number=>v!=null));
+---
+<svg class="world-map editorial-world-map" viewBox="0 0 800 410" role="img" aria-label={`${tr(lang,'mapLabel')}: ${metricText(indicator.id,lang).label}`}>
+  <rect aria-hidden="true" x="2" y="2" width="796" height="406" rx="12" fill="#faf5e9"/>
+  {shapes.map(s => <path aria-hidden="true" d={s.d} data-country={interactive ? s.id : undefined} fill={colorFor(valueFor(indicator, s.id, data.years.length-1), max, hue)} stroke="#403048" stroke-width=".75" stroke-linejoin="round"><title>{data.countries.some(c=>c.id===s.id)?countryName(data.countries.find(c=>c.id===s.id)!.iso3,lang):tr(lang,'noData')}</title></path>)}
+  <g aria-hidden="true" fill="none" stroke="#7132df" stroke-width="1.2" stroke-linecap="round"><path d="M20 30 Q54 26 90 30 M20 35 L49 35 M710 378 Q746 375 780 378"/></g>
+</svg>

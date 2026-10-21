@@ -1,0 +1,23 @@
+{
+  "styleName": "illustrated-editorial-maps",
+  "version": 1,
+  "brand": {"name":"WWMaps","domain":"wwmaps.com","primary":"#7132DF","paper":"#FAF5E9","highlight":"#BE2349","ink":"#281A3B"},
+  "corePrinciples": ["Real geographic geometry as the skeleton", "Organic expressive contour strokes without displacing boundaries", "Editorial clarity and recognizable geography", "Subtle paper texture", "Readable data, labels and sources", "Custom illustrated composition"],
+  "avoid": ["Invented geography or numbers", "Displacement filters on geographic paths", "Generic GIS export appearance", "Excessive clutter", "Characters on serious or B2B analysis", "Texture over labels or quantitative fills"],
+  "optionalElements": ["Small supporting stickman guide", "Hand-drawn arrows", "Compact callout notes", "Contextual icons"],
+  "modes": {
+    "playful-editorial": {"name":"Cartoon Editorial Maps","tone":"Friendly illustrated explainer; expressive ink, soft fills, sparse annotations","characters":"Optional, secondary, outside the map and only when explicitly requested"},
+    "analytical-editorial": {"name":"Investigative Sketch Maps","tone":"Sober investigative sketch; clean ink contours, paper, restrained crimson callouts","characters":"None"}
+  },
+  "mapDirections": {
+    "choropleth":"Keep statistical fills faithful to the scale; show units, missing values, period and legend. Put texture behind data.",
+    "highlight":"Highlight only named source-backed regions; keep surrounding real geometry recognizable.",
+    "bubble":"Use verified coordinates and area-proportional circles with a size legend.",
+    "flow":"Use verified origins and destinations; distinguish illustrative routes from measured flows.",
+    "historical-timeline":"Require dated boundary sources for every frame; never reuse current borders as historical evidence.",
+    "projection-comparison":"Use the same geographic dataset in explicitly named mathematical projections. Explain clipping and scale; never invent relative area ratios.",
+    "comparative":"Use consistent units, periods, scales and missing-value rules; clearly label each panel.",
+    "regional-heatmap":"Require subnational geometry, coverage and an explicit density method; do not imply precision from decorative gradients."
+  },
+  "masterPrompt":"Generate an editorial illustrated map using illustrated-editorial-maps. Use verified real geography as an immutable skeleton. Add organic expressive ink strokes, soft flat fills, subtle paper texture and a strong condensed italic title hierarchy. Preserve geographic topology and quantitative meaning. Keep annotations compact and the map central. Characters are secondary and only allowed by the chosen mode. Keep the result readable, restrained and distinctive. Use only supplied claims, data and sources."
+}

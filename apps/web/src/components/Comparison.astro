@@ -1,0 +1,43 @@
+---
+import {tr,countryName,metricText,type Locale} from '../lib/i18n';
+import {compareText} from '../lib/compare-i18n';
+import {comparisonPresets,presetCountries} from '../lib/comparison-model';
+import Base from '../layouts/Base.astro';
+import InterfaceSprite from './InterfaceSprite.astro';
+import { data } from '../lib/atlas';
+import {route} from '../lib/routes';
+import {dataTr} from '../lib/data-i18n';
+const { lang = 'en' } = Astro.props as {lang:Locale};
+const t=(key:Parameters<typeof tr>[1])=>tr(lang,key),c=compareText(lang);
+---
+<Base title={t('compareTitle')} lang={lang} noindex>
+  <div class="container comparison-page" data-comparison data-language={lang}>
+    <div class="comparison-intro"><div><span class="eyebrow">WWMAPS / {t('tagline')}</span><h1>{t('oneWorld')}<br/><em>{t('sideBySide')}</em></h1><p>{t('compareIntro')}</p></div><InterfaceSprite name="chart-presenter" size={180}/></div>
+    <p class="compare-notice">{t('demoWarning')}</p>
+    <section class="comparison-controls" aria-label={t('configure')}>
+      <div class="compare-presets"><span>{c.presets}</span>{comparisonPresets.map(p=><button type="button" data-preset={p.id} disabled={!presetCountries(data,p.id)} title={!presetCountries(data,p.id)?c.unavailable:undefined}>{c[p.id]}</button>)}</div>
+      <p class="compare-help">{c.presetNote}</p>
+      <label class="country-search-label" for="country-search">{c.search}<input id="country-search" type="search" placeholder={c.searchHint} autocomplete="off" aria-controls="country-options"/></label>
+      <p id="country-search-count" class="compare-help" role="status"></p>
+      <fieldset aria-describedby="country-limit"><legend>{t('choose')} <span id="selection-count">3 / 5</span></legend><div id="country-options" class="country-options">{data.countries.map((country,i)=><label><input type="checkbox" name="compare-country" value={country.id} checked={i<3}/><span>{countryName(country.iso3,lang)}</span></label>)}</div></fieldset>
+      <p id="country-search-empty" hidden>{c.empty}</p><p id="country-limit" class="compare-help">{c.limit}</p>
+      <div class="selected-country-group"><strong>{c.selected}</strong><div id="selected-countries" class="selected-countries"></div></div>
+      <div class="comparison-actions"><label>{t('year')} <select id="compare-year">{data.years.map(y=><option selected={y===data.years.at(-1)}>{y}</option>)}</select></label><button id="share-comparison" type="button">{c.share} ↗</button></div>
+      <label id="share-fallback" hidden>{c.copyFallback}<input readonly aria-label={c.share}/></label>
+      <p id="compare-status" role="status" aria-live="polite"></p>
+    </section>
+    <div id="comparison-results" class="comparison-results"></div>
+    <p class="comparison-footnote">{t('compareNote')}</p>
+    <section class="compare-history" aria-labelledby="history-heading"><div class="compare-section-heading"><h2 id="history-heading">{c.history}</h2><label for="history-indicator">{c.chart}<select id="history-indicator">{data.indicators.map(m=><option value={m.id}>{metricText(m.id,lang).label}</option>)}</select></label></div><p id="history-unit" class="metric-unit"></p><div id="history-legend" class="history-legend"></div><div id="comparison-history" tabindex="0" role="region" aria-labelledby="history-heading" aria-describedby="history-note"></div><p id="history-note" class="compare-help">{c.historyNote} {c.scroll} <a href="#compare-details">{c.details} ↓</a></p></section>
+    <section id="compare-details" class="compare-details" aria-labelledby="details-heading"><h2 id="details-heading">{c.details}</h2><p class="compare-help">{c.detailsNote}</p><label class="all-years"><input type="checkbox" id="compare-all-years"/>{c.allYears}</label><div class="comparison-table-wrap" tabindex="0" role="region" aria-labelledby="details-heading"><table id="comparison-table"><caption>{c.tableCaption} · {t('demo')}</caption><thead><tr><th scope="col">{c.indicator}</th><th scope="col">{c.country}</th><th scope="col">{c.year}</th><th scope="col">{c.value}</th><th scope="col">{c.unit}</th><th scope="col">{c.source}</th></tr></thead><tbody></tbody></table></div></section>
+    <section class="compare-exports" aria-labelledby="exports-heading"><h2 id="exports-heading">{c.exports}</h2><p class="compare-help">{c.visualNote}</p><p id="export-scope" class="compare-help"></p><div class="export-buttons"><button data-export="csv">↓ CSV</button><button data-export="json">↓ JSON</button><button data-export="svg">↓ SVG</button><button data-export="png">↓ PNG</button><button data-export="pdf">↓ {c.pdf}</button><button id="export-print">{c.print}</button></div><p id="export-status" role="status" aria-live="polite"></p></section>
+    <p><a href={route('indicators',lang)}>{dataTr(lang,'definitions')} ↗</a></p>
+    <noscript>{t('noscript')}</noscript>
+  </div>
+</Base>
+<script>
+import raw from '../../../../datasets/indicators.json';
+import type { DashboardData } from '@atlas/contracts';
+import { initComparison } from '../lib/comparison-client';
+initComparison(raw as DashboardData);
+</script>

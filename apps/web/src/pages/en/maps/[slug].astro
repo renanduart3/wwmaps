@@ -1,0 +1,7 @@
+---
+import Article from '../../../layouts/Article.astro';
+import { getPosts } from '../../../lib/posts';
+export async function getStaticPaths() { return (await getPosts()).filter(p => p.languages.includes('en')).map(post => ({ params: { slug: post.translations.en!.slug }, props: { post } })); }
+const { post } = Astro.props;
+---
+<Article post={post} lang="en" />

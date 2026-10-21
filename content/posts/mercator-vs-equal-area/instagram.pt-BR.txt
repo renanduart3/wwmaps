@@ -1,0 +1,10 @@
+O mapa que você conhece muda o tamanho aparente das regiões.
+
+A escolha da projeção muda a maneira como percebemos o tamanho das regiões no mapa.
+
+Mercator é útil para certos tipos de navegação, mas amplia áreas em latitudes altas.
+
+Fontes:
+U.S. Geological Survey: https://www.usgs.gov/faqs/how-are-different-map-projections-used
+
+#mapas #cartografia #projecoes

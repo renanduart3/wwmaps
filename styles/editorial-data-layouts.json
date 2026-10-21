@@ -1,0 +1,6 @@
+{
+  "editorial-data-map": "Use a map-centered editorial infographic. The map is the main anchor. Add supplied region labels, a clear legend with units and missing-data treatment, and concise statistical callouts. Use color to distinguish categories or intensity faithfully.",
+  "editorial-data-ranking": "Combine the geographic distribution with a clear numbered ranking box using only the supplied ranked data. Tie colors and labels between the map and the ranked list. Show period and unit; preserve ties and do not invent a top-ten cutoff or missing observations.",
+  "editorial-data-event-map": "Use a central map with accurately placed point markers, concise event labels and connector lines where useful. Show supplied dates or time range clearly. Include only sourced locations, counts and metrics; do not invent coordinates or imply precision absent from the evidence.",
+  "editorial-data-profile": "Use a central map with labeled profile markers linked to the supplied countries or regions. Add compact named profile callouts or portrait circles only for evidenced individuals. Keep supporting lists structured, label dates and avoid fabricated likenesses or additional people."
+}

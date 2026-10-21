@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "slug": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "title": {
+        "type": "string",
+        "minLength": 1
+      },
+      "subtitle": {
+        "type": "string",
+        "minLength": 1
+      },
+      "indicator": {
+        "type": "string"
+      },
+      "variant": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 3
+      }
+    },
+    "required": [
+      "slug",
+      "title",
+      "subtitle",
+      "indicator",
+      "variant"
+    ]
+  }
+}

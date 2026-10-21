@@ -1,0 +1,13 @@
+---
+import {categoryLabel,type VisualPost} from '@atlas/contracts';
+import {postImage,visualPostUrl} from '../lib/visual-posts';
+import {contentText} from '../lib/content-i18n';
+import type {Locale} from '../lib/i18n';
+const {post,lang}=Astro.props as {post:VisualPost;lang:Locale};
+const copy=post.translations[lang]!,image=await postImage(post,lang),t=contentText(lang);
+---
+<a class="visual-card editorial-card" href={visualPostUrl(post,lang)} data-visual data-category={post.category} data-search={`${copy.title} ${copy.subtitle} ${categoryLabel(post.category,lang)}`.toLowerCase()}>
+  <div class="editorial-image">{image?<img src={image} alt={copy.alt} width="1080" height="1350" loading="lazy"/>:<div class="image-pending"><span>WWMAPS</span><strong>{copy.title}</strong><p>{t.saveImage} <code>image.{lang}.png</code></p></div>}</div>
+  <div class="visual-caption"><span class="eyebrow">{categoryLabel(post.category,lang)}{import.meta.env.DEV&&` · ${t[post.status]}`}</span><h3>{copy.title}</h3><p>{copy.subtitle}</p></div>
+</a>
+<style>.editorial-image{aspect-ratio:4/5;border-radius:10px;overflow:hidden;background:#faf5e9;border:1px solid #d7c8db}.editorial-image img{display:block;width:100%;height:100%;object-fit:contain}.image-pending{height:100%;display:flex;flex-direction:column;justify-content:center;padding:22px;gap:16px;color:#512291}.image-pending>span{font-size:10px;letter-spacing:2px}.image-pending strong{font-family:var(--display);font-style:italic;font-size:29px;line-height:1.1}.image-pending p{font-size:11px;line-height:1.6}.image-pending code{display:block;font-size:10px}</style>

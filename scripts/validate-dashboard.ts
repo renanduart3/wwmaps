@@ -1,0 +1,11 @@
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { dashboardSchema, visualCollectionSchema, productCollectionSchema } from '@atlas/contracts';
+const root = resolve(import.meta.dirname, '../datasets');
+const json = async (file: string) => JSON.parse(await readFile(resolve(root, file), 'utf8'));
+const data = dashboardSchema.parse(await json('indicators.json'));
+if(data.mode!=='mock')throw new Error('The active observatory is still a mock. Use the dedicated source-review page; activation of official data requires a separate reviewed change.');
+const visuals = visualCollectionSchema.parse(await json('visuals.json'));
+productCollectionSchema.parse(await json('products.json'));
+for (const visual of visuals) if (!data.indicators.some(i=>i.id===visual.indicator)) throw new Error(`Unknown indicator on ${visual.slug}`);
+console.log(`Dashboard valid: ${data.indicators.length} indicators, ${data.countries.length} countries, ${data.years.length} years, ${visuals.length} visuals. Mode: ${data.mode}.`);

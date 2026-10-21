@@ -1,0 +1,19 @@
+{
+  "mode": "built-in image edit",
+  "transparentBackground": true,
+  "source": "Cartela de Sprites do Império WWMaps.png",
+  "assets": [
+    {
+      "name": "laptop-analyst",
+      "prompt": "Isolate ONLY the suited laptop analyst in the MEDIA / TECHNOLOGY row, approximately x980–1060 y650–745, a round-headed person standing with an open dark laptop from the supplied WWMaps spritesheet as a single transparent PNG website asset. Preserve the reference's round peach head, black cartoon outlines, small body proportions, costume, pose and props. Remove the entire blurred colored sheet background, all labels, neighbors and stray marks. Full body, feet and props intact. One character only. Fully transparent background, no backdrop, no cast shadow, no glow, no added text. Clean sharp edges, opaque character interiors, tightly framed with modest even transparent padding. Match the original friendly hand drawn style rather than a realistic or 3D rendering."
+    },
+    {
+      "name": "traveler",
+      "prompt": "Isolate ONLY the female traveler at the right end of SOCIETY / PEOPLE row, approximately x685–763 y789–887, with tan safari hat, black sunglasses, purple shirt and brown suitcase from the supplied WWMaps spritesheet as a single transparent PNG website asset. Preserve the reference's round peach head, black cartoon outlines, small body proportions, costume, pose and props. Remove the entire blurred colored sheet background, all labels, neighbors and stray marks. Full body, feet and props intact. One character only. Fully transparent background, no backdrop, no cast shadow, no glow, no added text. Clean sharp edges, opaque character interiors, tightly framed with modest even transparent padding. Match the original friendly hand drawn style rather than a realistic or 3D rendering."
+    },
+    {
+      "name": "gardener",
+      "prompt": "Isolate ONLY the gardener crouching beside a little green seedling in ENVIRONMENT / NATURE row, approximately x856–952 y789–889, with broad green hat and tan clothes from the supplied WWMaps spritesheet as a single transparent PNG website asset. Preserve the reference's round peach head, black cartoon outlines, small body proportions, costume, pose and props. Remove the entire blurred colored sheet background, all labels, neighbors and stray marks. Full body, feet and props intact. One character only. Fully transparent background, no backdrop, no cast shadow, no glow, no added text. Clean sharp edges, opaque character interiors, tightly framed with modest even transparent padding. Match the original friendly hand drawn style rather than a realistic or 3D rendering."
+    }
+  ]
+}

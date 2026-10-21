@@ -1,0 +1,1086 @@
+{
+  "retrievedAt": "2026-10-20T19:01:01.078Z",
+  "specSha256": "a2a386e57bcf334d3acf32b3831c881b73d7da2308e535221dc257be4be27791",
+  "downloads": [
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/countries-page-1.json",
+      "sha256": "99c199efc2fc2880c169eb611f5a32ba69adc0e225b83f54fe384a5d66ba2448",
+      "url": "https://api.worldbank.org/v2/country?format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T18:57:44.748Z",
+      "lastUpdated": null
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/gdp-metadata-page-1.json",
+      "sha256": "81363550de0ddb34b22e8d683c16781afe2889bd2b3204220f22d5f379c8666d",
+      "url": "https://api.worldbank.org/v2/indicator/NY.GDP.MKTP.CD?source=2&format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T18:57:44.829Z",
+      "lastUpdated": null
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/gdp-data-page-1.json",
+      "sha256": "30474d7e24b550ba2582a307aaa6f5f5dde5f1ba1fc0a0ccba0d00ed1d0595c7",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.MKTP.CD?source=2&date=2010%3A2024&format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T18:58:27.232Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/gdp-data-page-2.json",
+      "sha256": "15c8f52f627a351f9247afe744e0c887f12486ba9f44f2a98df81d76d007a5d2",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.MKTP.CD?source=2&date=2010%3A2024&format=json&per_page=1000&page=2",
+      "retrievedAt": "2026-10-20T18:58:27.748Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/gdp-data-page-3.json",
+      "sha256": "7eb5906fbf69fa45f49c4ecac3733bc08493d0480c923ce5358427e4bada6214",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.MKTP.CD?source=2&date=2010%3A2024&format=json&per_page=1000&page=3",
+      "retrievedAt": "2026-10-20T18:58:28.183Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/gdp-data-page-4.json",
+      "sha256": "941b2d213520a3d49c15026aeadbd80db1c3b9d165445c0cdc1e97ed4fdf45f5",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.MKTP.CD?source=2&date=2010%3A2024&format=json&per_page=1000&page=4",
+      "retrievedAt": "2026-10-20T18:58:28.652Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/income-metadata-page-1.json",
+      "sha256": "0a18b3879fd3e269f8d763aba9a4ed860058b030c55c80042b5b1254fd9d8010",
+      "url": "https://api.worldbank.org/v2/indicator/NY.GDP.PCAP.CD?source=2&format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T18:58:29.289Z",
+      "lastUpdated": null
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/income-data-page-1.json",
+      "sha256": "10e19a7ae0eaafb10df9b5514344a4c3fd92f2553fc4a31e9cfbf6190256f9f8",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?source=2&date=2010%3A2024&format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T18:58:29.768Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/income-data-page-2.json",
+      "sha256": "a7f815f8d7907388165eb414dd1f79b1c61b8294c112f1eb8ba91808afa4580c",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?source=2&date=2010%3A2024&format=json&per_page=1000&page=2",
+      "retrievedAt": "2026-10-20T18:58:30.228Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/income-data-page-3.json",
+      "sha256": "cf096ec82b5946bc51e7fd370d603b2d6130ae50d50a9bdd980b4aa538e1749f",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?source=2&date=2010%3A2024&format=json&per_page=1000&page=3",
+      "retrievedAt": "2026-10-20T18:58:30.832Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/income-data-page-4.json",
+      "sha256": "05155d784c34f1a8ce1ca1722ce6384703c23a7f06f7fd31fb2882711fc976d1",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?source=2&date=2010%3A2024&format=json&per_page=1000&page=4",
+      "retrievedAt": "2026-10-20T18:58:31.287Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/homicide-metadata-page-1.json",
+      "sha256": "73610cc93a323fb20465bca167e46b99975938190e56d6fc16540c1c72721d09",
+      "url": "https://api.worldbank.org/v2/indicator/VC.IHR.PSRC.P5?source=2&format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T18:58:31.956Z",
+      "lastUpdated": null
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/homicide-data-page-1.json",
+      "sha256": "f67a2cafffddc8d30709bc1113815c365cdc18c721d86cdc82805dd29716020b",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/VC.IHR.PSRC.P5?source=2&date=2010%3A2024&format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T18:58:32.411Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/homicide-data-page-2.json",
+      "sha256": "5028322737d7577087fb1fa52566fe038584d646c83fddccc653935b20c116e5",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/VC.IHR.PSRC.P5?source=2&date=2010%3A2024&format=json&per_page=1000&page=2",
+      "retrievedAt": "2026-10-20T18:58:32.947Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/homicide-data-page-3.json",
+      "sha256": "0888ca56e86901b5090aa571f5d94663f44be580b64e2535318d76d1e1453901",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/VC.IHR.PSRC.P5?source=2&date=2010%3A2024&format=json&per_page=1000&page=3",
+      "retrievedAt": "2026-10-20T18:58:33.757Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/homicide-data-page-4.json",
+      "sha256": "3c54ddd919d4029bd5f337a4c9c74b3f18a923e6edb38c6e4df07121603bba37",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/VC.IHR.PSRC.P5?source=2&date=2010%3A2024&format=json&per_page=1000&page=4",
+      "retrievedAt": "2026-10-20T18:58:34.294Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/birth-metadata-page-1.json",
+      "sha256": "935b70bad85c068848400047d47e17bba5b0398eef8fe570f499e0bd585172c1",
+      "url": "https://api.worldbank.org/v2/indicator/SP.DYN.CBRT.IN?source=2&format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T18:58:34.663Z",
+      "lastUpdated": null
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/birth-data-page-1.json",
+      "sha256": "32b18a1d321ed6ae90e8c485a8ae804ded5dcbea5393b52971508e568dc0f7dd",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/SP.DYN.CBRT.IN?source=2&date=2010%3A2024&format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T18:58:35.145Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/birth-data-page-2.json",
+      "sha256": "dc38bc68d18892ed14c7462178984c34fcbe6189a21e83218820e289f1618e6a",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/SP.DYN.CBRT.IN?source=2&date=2010%3A2024&format=json&per_page=1000&page=2",
+      "retrievedAt": "2026-10-20T18:58:36.200Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/birth-data-page-3.json",
+      "sha256": "3020f000ad8a77485b2f9d7b57229775f41870fdf80e0486e79bd256752a252b",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/SP.DYN.CBRT.IN?source=2&date=2010%3A2024&format=json&per_page=1000&page=3",
+      "retrievedAt": "2026-10-20T18:58:38.337Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/birth-data-page-4.json",
+      "sha256": "48e0068a2d2771757ff2f14970daf128f8dcde40c1a2be69b716a256526d7514",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/SP.DYN.CBRT.IN?source=2&date=2010%3A2024&format=json&per_page=1000&page=4",
+      "retrievedAt": "2026-10-20T18:59:23.971Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/poverty-metadata-page-1.json",
+      "sha256": "5c74fc85e74fc2aac9c4f03afc788a15d03d8ec416e04062183b9318dbdd031c",
+      "url": "https://api.worldbank.org/v2/indicator/SI.POV.DDAY?source=2&format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T18:59:24.317Z",
+      "lastUpdated": null
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/poverty-data-page-1.json",
+      "sha256": "3f1aa9dcd761781d8b1a31f1e14bfcdbc2ae5cf0c5422bbb50c897e00373b15d",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/SI.POV.DDAY?source=2&date=2010%3A2024&format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T18:59:25.848Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/poverty-data-page-2.json",
+      "sha256": "9edbe3536645161e327345457f69628f0e08209d86b9165e5c177f0d163da9b6",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/SI.POV.DDAY?source=2&date=2010%3A2024&format=json&per_page=1000&page=2",
+      "retrievedAt": "2026-10-20T19:00:12.456Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/poverty-data-page-3.json",
+      "sha256": "691da2875479b25fb594b0e49f138021349c5923d4227120403288ab3716a632",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/SI.POV.DDAY?source=2&date=2010%3A2024&format=json&per_page=1000&page=3",
+      "retrievedAt": "2026-10-20T19:00:12.934Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/poverty-data-page-4.json",
+      "sha256": "ef218b7f21428ac7976c79783a6f6e765b7998f369a1d4128fb1800af4c9261f",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/SI.POV.DDAY?source=2&date=2010%3A2024&format=json&per_page=1000&page=4",
+      "retrievedAt": "2026-10-20T19:00:13.672Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/life-metadata-page-1.json",
+      "sha256": "321c62091af04f07cc57b65400ab96606e0822c6377f5135263b06959f08f399",
+      "url": "https://api.worldbank.org/v2/indicator/SP.DYN.LE00.IN?source=2&format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T19:00:14.043Z",
+      "lastUpdated": null
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/life-data-page-1.json",
+      "sha256": "40084042356dfb3568258a1508024451e90c8fbcbcf8865da16ced964e512842",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/SP.DYN.LE00.IN?source=2&date=2010%3A2024&format=json&per_page=1000&page=1",
+      "retrievedAt": "2026-10-20T19:00:59.544Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/life-data-page-2.json",
+      "sha256": "f506fc2a441427cf27bece7457ec8efd53efc074e0d07c162dad6c6f18e0f119",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/SP.DYN.LE00.IN?source=2&date=2010%3A2024&format=json&per_page=1000&page=2",
+      "retrievedAt": "2026-10-20T19:01:00.010Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/life-data-page-3.json",
+      "sha256": "c515dbbc71ba6e97dc642926a24c809b7c7f095773a0b007b2eb49c48bef7a72",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/SP.DYN.LE00.IN?source=2&date=2010%3A2024&format=json&per_page=1000&page=3",
+      "retrievedAt": "2026-10-20T19:01:00.509Z",
+      "lastUpdated": "2026-10-08"
+    },
+    {
+      "path": "datasets/raw/worldbank/2026-10-20T18-57-44.420Z/life-data-page-4.json",
+      "sha256": "e55e7f28d7a965d359fe79c47cd40778037a51eea9c896a1b3f64340d58f6b8e",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/SP.DYN.LE00.IN?source=2&date=2010%3A2024&format=json&per_page=1000&page=4",
+      "retrievedAt": "2026-10-20T19:01:01.068Z",
+      "lastUpdated": "2026-10-08"
+    }
+  ],
+  "mappingPackage": "i18n-iso-countries@7.14.0",
+  "mapping": {
+    "100": {
+      "iso3": "BGR",
+      "iso2": "BG"
+    },
+    "104": {
+      "iso3": "MMR",
+      "iso2": "MM"
+    },
+    "108": {
+      "iso3": "BDI",
+      "iso2": "BI"
+    },
+    "112": {
+      "iso3": "BLR",
+      "iso2": "BY"
+    },
+    "116": {
+      "iso3": "KHM",
+      "iso2": "KH"
+    },
+    "120": {
+      "iso3": "CMR",
+      "iso2": "CM"
+    },
+    "124": {
+      "iso3": "CAN",
+      "iso2": "CA"
+    },
+    "132": {
+      "iso3": "CPV",
+      "iso2": "CV"
+    },
+    "136": {
+      "iso3": "CYM",
+      "iso2": "KY"
+    },
+    "140": {
+      "iso3": "CAF",
+      "iso2": "CF"
+    },
+    "144": {
+      "iso3": "LKA",
+      "iso2": "LK"
+    },
+    "148": {
+      "iso3": "TCD",
+      "iso2": "TD"
+    },
+    "152": {
+      "iso3": "CHL",
+      "iso2": "CL"
+    },
+    "156": {
+      "iso3": "CHN",
+      "iso2": "CN"
+    },
+    "170": {
+      "iso3": "COL",
+      "iso2": "CO"
+    },
+    "174": {
+      "iso3": "COM",
+      "iso2": "KM"
+    },
+    "178": {
+      "iso3": "COG",
+      "iso2": "CG"
+    },
+    "180": {
+      "iso3": "COD",
+      "iso2": "CD"
+    },
+    "188": {
+      "iso3": "CRI",
+      "iso2": "CR"
+    },
+    "191": {
+      "iso3": "HRV",
+      "iso2": "HR"
+    },
+    "192": {
+      "iso3": "CUB",
+      "iso2": "CU"
+    },
+    "196": {
+      "iso3": "CYP",
+      "iso2": "CY"
+    },
+    "203": {
+      "iso3": "CZE",
+      "iso2": "CZ"
+    },
+    "204": {
+      "iso3": "BEN",
+      "iso2": "BJ"
+    },
+    "208": {
+      "iso3": "DNK",
+      "iso2": "DK"
+    },
+    "212": {
+      "iso3": "DMA",
+      "iso2": "DM"
+    },
+    "214": {
+      "iso3": "DOM",
+      "iso2": "DO"
+    },
+    "218": {
+      "iso3": "ECU",
+      "iso2": "EC"
+    },
+    "222": {
+      "iso3": "SLV",
+      "iso2": "SV"
+    },
+    "226": {
+      "iso3": "GNQ",
+      "iso2": "GQ"
+    },
+    "231": {
+      "iso3": "ETH",
+      "iso2": "ET"
+    },
+    "232": {
+      "iso3": "ERI",
+      "iso2": "ER"
+    },
+    "233": {
+      "iso3": "EST",
+      "iso2": "EE"
+    },
+    "234": {
+      "iso3": "FRO",
+      "iso2": "FO"
+    },
+    "242": {
+      "iso3": "FJI",
+      "iso2": "FJ"
+    },
+    "246": {
+      "iso3": "FIN",
+      "iso2": "FI"
+    },
+    "250": {
+      "iso3": "FRA",
+      "iso2": "FR"
+    },
+    "258": {
+      "iso3": "PYF",
+      "iso2": "PF"
+    },
+    "262": {
+      "iso3": "DJI",
+      "iso2": "DJ"
+    },
+    "266": {
+      "iso3": "GAB",
+      "iso2": "GA"
+    },
+    "268": {
+      "iso3": "GEO",
+      "iso2": "GE"
+    },
+    "270": {
+      "iso3": "GMB",
+      "iso2": "GM"
+    },
+    "275": {
+      "iso3": "PSE",
+      "iso2": "PS"
+    },
+    "276": {
+      "iso3": "DEU",
+      "iso2": "DE"
+    },
+    "288": {
+      "iso3": "GHA",
+      "iso2": "GH"
+    },
+    "292": {
+      "iso3": "GIB",
+      "iso2": "GI"
+    },
+    "296": {
+      "iso3": "KIR",
+      "iso2": "KI"
+    },
+    "300": {
+      "iso3": "GRC",
+      "iso2": "GR"
+    },
+    "304": {
+      "iso3": "GRL",
+      "iso2": "GL"
+    },
+    "308": {
+      "iso3": "GRD",
+      "iso2": "GD"
+    },
+    "316": {
+      "iso3": "GUM",
+      "iso2": "GU"
+    },
+    "320": {
+      "iso3": "GTM",
+      "iso2": "GT"
+    },
+    "324": {
+      "iso3": "GIN",
+      "iso2": "GN"
+    },
+    "328": {
+      "iso3": "GUY",
+      "iso2": "GY"
+    },
+    "332": {
+      "iso3": "HTI",
+      "iso2": "HT"
+    },
+    "340": {
+      "iso3": "HND",
+      "iso2": "HN"
+    },
+    "344": {
+      "iso3": "HKG",
+      "iso2": "HK"
+    },
+    "348": {
+      "iso3": "HUN",
+      "iso2": "HU"
+    },
+    "352": {
+      "iso3": "ISL",
+      "iso2": "IS"
+    },
+    "356": {
+      "iso3": "IND",
+      "iso2": "IN"
+    },
+    "360": {
+      "iso3": "IDN",
+      "iso2": "ID"
+    },
+    "364": {
+      "iso3": "IRN",
+      "iso2": "IR"
+    },
+    "368": {
+      "iso3": "IRQ",
+      "iso2": "IQ"
+    },
+    "372": {
+      "iso3": "IRL",
+      "iso2": "IE"
+    },
+    "376": {
+      "iso3": "ISR",
+      "iso2": "IL"
+    },
+    "380": {
+      "iso3": "ITA",
+      "iso2": "IT"
+    },
+    "384": {
+      "iso3": "CIV",
+      "iso2": "CI"
+    },
+    "388": {
+      "iso3": "JAM",
+      "iso2": "JM"
+    },
+    "392": {
+      "iso3": "JPN",
+      "iso2": "JP"
+    },
+    "398": {
+      "iso3": "KAZ",
+      "iso2": "KZ"
+    },
+    "400": {
+      "iso3": "JOR",
+      "iso2": "JO"
+    },
+    "404": {
+      "iso3": "KEN",
+      "iso2": "KE"
+    },
+    "408": {
+      "iso3": "PRK",
+      "iso2": "KP"
+    },
+    "410": {
+      "iso3": "KOR",
+      "iso2": "KR"
+    },
+    "414": {
+      "iso3": "KWT",
+      "iso2": "KW"
+    },
+    "417": {
+      "iso3": "KGZ",
+      "iso2": "KG"
+    },
+    "418": {
+      "iso3": "LAO",
+      "iso2": "LA"
+    },
+    "422": {
+      "iso3": "LBN",
+      "iso2": "LB"
+    },
+    "426": {
+      "iso3": "LSO",
+      "iso2": "LS"
+    },
+    "428": {
+      "iso3": "LVA",
+      "iso2": "LV"
+    },
+    "430": {
+      "iso3": "LBR",
+      "iso2": "LR"
+    },
+    "434": {
+      "iso3": "LBY",
+      "iso2": "LY"
+    },
+    "438": {
+      "iso3": "LIE",
+      "iso2": "LI"
+    },
+    "440": {
+      "iso3": "LTU",
+      "iso2": "LT"
+    },
+    "442": {
+      "iso3": "LUX",
+      "iso2": "LU"
+    },
+    "446": {
+      "iso3": "MAC",
+      "iso2": "MO"
+    },
+    "450": {
+      "iso3": "MDG",
+      "iso2": "MG"
+    },
+    "454": {
+      "iso3": "MWI",
+      "iso2": "MW"
+    },
+    "458": {
+      "iso3": "MYS",
+      "iso2": "MY"
+    },
+    "462": {
+      "iso3": "MDV",
+      "iso2": "MV"
+    },
+    "466": {
+      "iso3": "MLI",
+      "iso2": "ML"
+    },
+    "470": {
+      "iso3": "MLT",
+      "iso2": "MT"
+    },
+    "478": {
+      "iso3": "MRT",
+      "iso2": "MR"
+    },
+    "480": {
+      "iso3": "MUS",
+      "iso2": "MU"
+    },
+    "484": {
+      "iso3": "MEX",
+      "iso2": "MX"
+    },
+    "492": {
+      "iso3": "MCO",
+      "iso2": "MC"
+    },
+    "496": {
+      "iso3": "MNG",
+      "iso2": "MN"
+    },
+    "498": {
+      "iso3": "MDA",
+      "iso2": "MD"
+    },
+    "499": {
+      "iso3": "MNE",
+      "iso2": "ME"
+    },
+    "504": {
+      "iso3": "MAR",
+      "iso2": "MA"
+    },
+    "508": {
+      "iso3": "MOZ",
+      "iso2": "MZ"
+    },
+    "512": {
+      "iso3": "OMN",
+      "iso2": "OM"
+    },
+    "516": {
+      "iso3": "NAM",
+      "iso2": "NA"
+    },
+    "520": {
+      "iso3": "NRU",
+      "iso2": "NR"
+    },
+    "524": {
+      "iso3": "NPL",
+      "iso2": "NP"
+    },
+    "528": {
+      "iso3": "NLD",
+      "iso2": "NL"
+    },
+    "531": {
+      "iso3": "CUW",
+      "iso2": "CW"
+    },
+    "533": {
+      "iso3": "ABW",
+      "iso2": "AW"
+    },
+    "534": {
+      "iso3": "SXM",
+      "iso2": "SX"
+    },
+    "540": {
+      "iso3": "NCL",
+      "iso2": "NC"
+    },
+    "548": {
+      "iso3": "VUT",
+      "iso2": "VU"
+    },
+    "554": {
+      "iso3": "NZL",
+      "iso2": "NZ"
+    },
+    "558": {
+      "iso3": "NIC",
+      "iso2": "NI"
+    },
+    "562": {
+      "iso3": "NER",
+      "iso2": "NE"
+    },
+    "566": {
+      "iso3": "NGA",
+      "iso2": "NG"
+    },
+    "578": {
+      "iso3": "NOR",
+      "iso2": "NO"
+    },
+    "580": {
+      "iso3": "MNP",
+      "iso2": "MP"
+    },
+    "583": {
+      "iso3": "FSM",
+      "iso2": "FM"
+    },
+    "584": {
+      "iso3": "MHL",
+      "iso2": "MH"
+    },
+    "585": {
+      "iso3": "PLW",
+      "iso2": "PW"
+    },
+    "586": {
+      "iso3": "PAK",
+      "iso2": "PK"
+    },
+    "591": {
+      "iso3": "PAN",
+      "iso2": "PA"
+    },
+    "598": {
+      "iso3": "PNG",
+      "iso2": "PG"
+    },
+    "600": {
+      "iso3": "PRY",
+      "iso2": "PY"
+    },
+    "604": {
+      "iso3": "PER",
+      "iso2": "PE"
+    },
+    "608": {
+      "iso3": "PHL",
+      "iso2": "PH"
+    },
+    "616": {
+      "iso3": "POL",
+      "iso2": "PL"
+    },
+    "620": {
+      "iso3": "PRT",
+      "iso2": "PT"
+    },
+    "624": {
+      "iso3": "GNB",
+      "iso2": "GW"
+    },
+    "626": {
+      "iso3": "TLS",
+      "iso2": "TL"
+    },
+    "630": {
+      "iso3": "PRI",
+      "iso2": "PR"
+    },
+    "634": {
+      "iso3": "QAT",
+      "iso2": "QA"
+    },
+    "642": {
+      "iso3": "ROU",
+      "iso2": "RO"
+    },
+    "643": {
+      "iso3": "RUS",
+      "iso2": "RU"
+    },
+    "646": {
+      "iso3": "RWA",
+      "iso2": "RW"
+    },
+    "659": {
+      "iso3": "KNA",
+      "iso2": "KN"
+    },
+    "662": {
+      "iso3": "LCA",
+      "iso2": "LC"
+    },
+    "663": {
+      "iso3": "MAF",
+      "iso2": "MF"
+    },
+    "670": {
+      "iso3": "VCT",
+      "iso2": "VC"
+    },
+    "674": {
+      "iso3": "SMR",
+      "iso2": "SM"
+    },
+    "678": {
+      "iso3": "STP",
+      "iso2": "ST"
+    },
+    "682": {
+      "iso3": "SAU",
+      "iso2": "SA"
+    },
+    "686": {
+      "iso3": "SEN",
+      "iso2": "SN"
+    },
+    "688": {
+      "iso3": "SRB",
+      "iso2": "RS"
+    },
+    "690": {
+      "iso3": "SYC",
+      "iso2": "SC"
+    },
+    "694": {
+      "iso3": "SLE",
+      "iso2": "SL"
+    },
+    "702": {
+      "iso3": "SGP",
+      "iso2": "SG"
+    },
+    "703": {
+      "iso3": "SVK",
+      "iso2": "SK"
+    },
+    "704": {
+      "iso3": "VNM",
+      "iso2": "VN"
+    },
+    "705": {
+      "iso3": "SVN",
+      "iso2": "SI"
+    },
+    "706": {
+      "iso3": "SOM",
+      "iso2": "SO"
+    },
+    "710": {
+      "iso3": "ZAF",
+      "iso2": "ZA"
+    },
+    "716": {
+      "iso3": "ZWE",
+      "iso2": "ZW"
+    },
+    "724": {
+      "iso3": "ESP",
+      "iso2": "ES"
+    },
+    "728": {
+      "iso3": "SSD",
+      "iso2": "SS"
+    },
+    "729": {
+      "iso3": "SDN",
+      "iso2": "SD"
+    },
+    "740": {
+      "iso3": "SUR",
+      "iso2": "SR"
+    },
+    "748": {
+      "iso3": "SWZ",
+      "iso2": "SZ"
+    },
+    "752": {
+      "iso3": "SWE",
+      "iso2": "SE"
+    },
+    "756": {
+      "iso3": "CHE",
+      "iso2": "CH"
+    },
+    "760": {
+      "iso3": "SYR",
+      "iso2": "SY"
+    },
+    "762": {
+      "iso3": "TJK",
+      "iso2": "TJ"
+    },
+    "764": {
+      "iso3": "THA",
+      "iso2": "TH"
+    },
+    "768": {
+      "iso3": "TGO",
+      "iso2": "TG"
+    },
+    "776": {
+      "iso3": "TON",
+      "iso2": "TO"
+    },
+    "780": {
+      "iso3": "TTO",
+      "iso2": "TT"
+    },
+    "784": {
+      "iso3": "ARE",
+      "iso2": "AE"
+    },
+    "788": {
+      "iso3": "TUN",
+      "iso2": "TN"
+    },
+    "792": {
+      "iso3": "TUR",
+      "iso2": "TR"
+    },
+    "795": {
+      "iso3": "TKM",
+      "iso2": "TM"
+    },
+    "796": {
+      "iso3": "TCA",
+      "iso2": "TC"
+    },
+    "798": {
+      "iso3": "TUV",
+      "iso2": "TV"
+    },
+    "800": {
+      "iso3": "UGA",
+      "iso2": "UG"
+    },
+    "804": {
+      "iso3": "UKR",
+      "iso2": "UA"
+    },
+    "807": {
+      "iso3": "MKD",
+      "iso2": "MK"
+    },
+    "818": {
+      "iso3": "EGY",
+      "iso2": "EG"
+    },
+    "826": {
+      "iso3": "GBR",
+      "iso2": "GB"
+    },
+    "833": {
+      "iso3": "IMN",
+      "iso2": "IM"
+    },
+    "834": {
+      "iso3": "TZA",
+      "iso2": "TZ"
+    },
+    "840": {
+      "iso3": "USA",
+      "iso2": "US"
+    },
+    "850": {
+      "iso3": "VIR",
+      "iso2": "VI"
+    },
+    "854": {
+      "iso3": "BFA",
+      "iso2": "BF"
+    },
+    "858": {
+      "iso3": "URY",
+      "iso2": "UY"
+    },
+    "860": {
+      "iso3": "UZB",
+      "iso2": "UZ"
+    },
+    "862": {
+      "iso3": "VEN",
+      "iso2": "VE"
+    },
+    "882": {
+      "iso3": "WSM",
+      "iso2": "WS"
+    },
+    "887": {
+      "iso3": "YEM",
+      "iso2": "YE"
+    },
+    "894": {
+      "iso3": "ZMB",
+      "iso2": "ZM"
+    },
+    "004": {
+      "iso3": "AFG",
+      "iso2": "AF"
+    },
+    "024": {
+      "iso3": "AGO",
+      "iso2": "AO"
+    },
+    "008": {
+      "iso3": "ALB",
+      "iso2": "AL"
+    },
+    "020": {
+      "iso3": "AND",
+      "iso2": "AD"
+    },
+    "032": {
+      "iso3": "ARG",
+      "iso2": "AR"
+    },
+    "051": {
+      "iso3": "ARM",
+      "iso2": "AM"
+    },
+    "016": {
+      "iso3": "ASM",
+      "iso2": "AS"
+    },
+    "028": {
+      "iso3": "ATG",
+      "iso2": "AG"
+    },
+    "036": {
+      "iso3": "AUS",
+      "iso2": "AU"
+    },
+    "040": {
+      "iso3": "AUT",
+      "iso2": "AT"
+    },
+    "031": {
+      "iso3": "AZE",
+      "iso2": "AZ"
+    },
+    "056": {
+      "iso3": "BEL",
+      "iso2": "BE"
+    },
+    "050": {
+      "iso3": "BGD",
+      "iso2": "BD"
+    },
+    "048": {
+      "iso3": "BHR",
+      "iso2": "BH"
+    },
+    "044": {
+      "iso3": "BHS",
+      "iso2": "BS"
+    },
+    "070": {
+      "iso3": "BIH",
+      "iso2": "BA"
+    },
+    "084": {
+      "iso3": "BLZ",
+      "iso2": "BZ"
+    },
+    "060": {
+      "iso3": "BMU",
+      "iso2": "BM"
+    },
+    "068": {
+      "iso3": "BOL",
+      "iso2": "BO"
+    },
+    "076": {
+      "iso3": "BRA",
+      "iso2": "BR"
+    },
+    "052": {
+      "iso3": "BRB",
+      "iso2": "BB"
+    },
+    "096": {
+      "iso3": "BRN",
+      "iso2": "BN"
+    },
+    "064": {
+      "iso3": "BTN",
+      "iso2": "BT"
+    },
+    "072": {
+      "iso3": "BWA",
+      "iso2": "BW"
+    },
+    "012": {
+      "iso3": "DZA",
+      "iso2": "DZ"
+    },
+    "090": {
+      "iso3": "SLB",
+      "iso2": "SB"
+    },
+    "092": {
+      "iso3": "VGB",
+      "iso2": "VG"
+    }
+  }
+}

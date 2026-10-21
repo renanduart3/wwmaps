@@ -1,0 +1,10 @@
+{
+  "topic": "Countries with the highest GDP per capita",
+  "category": "economy",
+  "contentType": "statistical-geography",
+  "mapType": "choropleth",
+  "geographicScope": "world",
+  "commercialPurpose": ["audience-growth", "b2b"],
+  "languages": ["en", "pt-BR"],
+  "outputs": ["website-visual", "instagram-image", "instagram-caption"]
+}

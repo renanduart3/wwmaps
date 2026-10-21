@@ -1,0 +1,86 @@
+[
+  {
+    "slug": "visual-1",
+    "title": "O tamanho das economias",
+    "subtitle": "Uma visão do PIB, país por país.",
+    "indicator": "gdp",
+    "variant": 0
+  },
+  {
+    "slug": "visual-2",
+    "title": "Renda em perspectiva",
+    "subtitle": "Compare o PIB por habitante.",
+    "indicator": "income",
+    "variant": 1
+  },
+  {
+    "slug": "visual-3",
+    "title": "Um mundo de novas gerações",
+    "subtitle": "Como observar a taxa de natalidade.",
+    "indicator": "birth",
+    "variant": 2
+  },
+  {
+    "slug": "visual-4",
+    "title": "Viver mais, viver melhor",
+    "subtitle": "A expectativa de vida em um mapa.",
+    "indicator": "life",
+    "variant": 3
+  },
+  {
+    "slug": "visual-5",
+    "title": "As muitas faces da pobreza",
+    "subtitle": "Um indicador, diferentes contextos.",
+    "indicator": "poverty",
+    "variant": 0
+  },
+  {
+    "slug": "visual-6",
+    "title": "Segurança em números",
+    "subtitle": "Homicídios e diferenças entre países.",
+    "indicator": "homicide",
+    "variant": 1
+  },
+  {
+    "slug": "visual-7",
+    "title": "Economias ao longo do tempo",
+    "subtitle": "Explore quinze anos de uma série.",
+    "indicator": "gdp",
+    "variant": 2
+  },
+  {
+    "slug": "visual-8",
+    "title": "Além do tamanho do país",
+    "subtitle": "Renda por pessoa e suas limitações.",
+    "indicator": "income",
+    "variant": 3
+  },
+  {
+    "slug": "visual-9",
+    "title": "O ritmo da população",
+    "subtitle": "Natalidade sob uma nova perspectiva.",
+    "indicator": "birth",
+    "variant": 0
+  },
+  {
+    "slug": "visual-10",
+    "title": "Uma janela para a longevidade",
+    "subtitle": "Compare trajetórias, não só posições.",
+    "indicator": "life",
+    "variant": 1
+  },
+  {
+    "slug": "visual-11",
+    "title": "Ler os dados com cuidado",
+    "subtitle": "Pobreza, definições e comparabilidade.",
+    "indicator": "poverty",
+    "variant": 2
+  },
+  {
+    "slug": "visual-12",
+    "title": "O que um mapa não conta",
+    "subtitle": "Taxas, cobertura e contexto social.",
+    "indicator": "homicide",
+    "variant": 3
+  }
+]

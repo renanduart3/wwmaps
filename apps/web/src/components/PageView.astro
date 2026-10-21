@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import InterfaceSprite from './InterfaceSprite.astro';
+import ProductCard from './ProductCard.astro';
+import WorldMap from './WorldMap.astro';
+import {categories,categoryLabel} from '@atlas/contracts';
+import {data,visuals,products} from '../lib/atlas';
+import {tr,visualText,metricText,type Locale, type TextKey} from '../lib/i18n';
+import {route,type PageKey} from '../lib/routes';
+import {getPosts,postUrl} from '../lib/posts';
+import {getVisualPosts,visualPostUrl} from '../lib/visual-posts';
+const {page,lang,slug}=Astro.props as {page:PageKey;lang:Locale;slug?:string};
+const t=(key:TextKey)=>tr(lang,key);
+const posts=(await getPosts()).filter(p=>p.languages.includes(lang));
+const externalPosts=(await getVisualPosts()).filter(p=>p.languages.includes(lang));
+const visual=visuals.find(v=>v.slug===slug);
+const copy=visual?visualText(visual,lang):undefined;
+const indicator=visual?data.indicators.find(i=>i.id===visual.indicator):undefined;
+const metric=indicator?metricText(indicator.id,lang):undefined;
+const title=copy?.title??(page==='tag'?`#${slug}`:t(page as TextKey));
+const searchItems=[...externalPosts.map(p=>({title:p.translations[lang]!.title,subtitle:p.translations[lang]!.subtitle,url:visualPostUrl(p,lang),category:categoryLabel(p.category,lang)})),...visuals.map(v=>{const c=visualText(v,lang);return {...c,url:route('visual',lang,v.slug),category:categoryLabel(data.indicators.find(i=>i.id===v.indicator)!.category,lang)};}),...posts.map(p=>({title:p.translations[lang]!.title,subtitle:p.translations[lang]!.summary,url:postUrl(p,lang),category:categoryLabel(p.category,lang)}))];
+---
+<Base title={title} lang={lang} noindex={page==='visual'}>
+{page==='categories'&&<div class="container"><header class="page-heading sprite-heading"><InterfaceSprite name="map-reader" size={115}/><span class="eyebrow">WWMAPS / {t('catalogLabel')}</span><h1>{t('catalogHeading')}</h1><p>{t('catalogIntro')}</p></header><div class="editorial-categories">{categories.map(c=>{const demos=externalPosts.length?0:visuals.filter(v=>data.indicators.find(i=>i.id===v.indicator)?.category===c.id).length;const entries=posts.filter(p=>p.category===c.id);const newEntries=externalPosts.filter(p=>p.category===c.id);return <article><span class="eyebrow">{t(c.priority?'priority':'catalogLabel')}</span><h2>{categoryLabel(c.id,lang)}</h2><small>{tr(lang,'packageCount',{count:entries.length+newEntries.length})} · {tr(lang,'demoCount',{count:demos})}</small><a href={`${route('home',lang)}?category=${c.id}#visuais`}>{t('read')} ↗</a>{entries.map(p=><a href={postUrl(p,lang)}>{p.translations[lang]!.title} ↗</a>)}{newEntries.map(p=><a href={visualPostUrl(p,lang)}>{p.translations[lang]!.title} ↗</a>)}{!demos&&!entries.length&&!newEntries.length&&<p>{t('preparing')}</p>}</article>;})}</div></div>}
+{page==='collection'&&<div class="container"><header class="page-heading sprite-heading"><InterfaceSprite name="traveler" size={115}/><span class="eyebrow">WWMAPS / {t('collection')}</span><h1>{t('collectionHeading')}</h1><p>{t('collectionIntro')}</p></header><p class="catalog-notice">{t('catalogNotice')}</p><div class="product-catalog">{products.map(product=><ProductCard product={product} lang={lang}/>)}</div><a class="button" href={route('home',lang)}>← {t('back')}</a></div>}
+{page==='about'&&<div class="container reading"><span class="eyebrow">WWMAPS / {t('about')}</span><h1>{t('aboutHeading')}</h1><p>{t('aboutIntro')}</p><p>{t('aboutBody')}</p><a class="button" href={route('methodology',lang)}>{t('ourMethod')} ↗</a></div>}
+{page==='methodology'&&<div class="container reading"><span class="eyebrow">WWMAPS / {t('methodology')}</span><h1>{t('methodHeading')}</h1>{[['methodDemoHeading','methodDemo'],['evidenceHeading','evidenceBody'],['contextHeading','contextBody'],['reviewHeading','reviewBody']].map(([heading,body])=><section><h2>{t(heading as TextKey)}</h2><p>{t(body as TextKey)}</p></section>)}</div>}
+{page==='visual'&&visual&&indicator&&copy&&metric&&<div class="container visual-detail"><a class="eyebrow" href={`${route('home',lang)}#visuais`}>← {t('allVisuals')}</a><header class="page-heading"><span class="eyebrow">{categoryLabel(indicator.category,lang)} · {t('demoVisual')}</span><h1>{copy.title}</h1><p>{copy.subtitle}</p></header><div class="detail-map"><div class="section-heading"><h2>{metric.label}</h2><span>{data.years.at(-1)} · {metric.unit}</span></div><WorldMap indicator={indicator} lang={lang}/></div><div class="detail-context"><section><h2>{t('beforeReading')}</h2><p>{t('detailNote')}</p><a class="button" href={route('home',lang)}>{t('exploreHistory')} ↗</a></section><section><h2>{t('files')}</h2><p>{t('plannedSource')}: <a href={indicator.source.url} target="_blank" rel="noopener">{t('worldBank')} ↗</a><br/>{t('sourceCode')}: <code>{indicator.source.code}</code></p><p><a href="/data/indicators.json" download>{t('download')} ↓</a></p><p>Natural Earth / world-atlas. {t('boundaryNote')}</p></section></div></div>}
+{page==='search'&&<div class="container search-page"><header class="page-heading sprite-heading"><InterfaceSprite name="researcher" size={105}/><span class="eyebrow">WWMAPS / {t('search')}</span><h1>{t('searchHeading')}</h1></header><label for="query">{t('searchIntro')}</label><input id="query" type="search" placeholder={t('searchPlaceholder')}/><p id="count" role="status" class="muted">{tr(lang,'resultCount',{count:searchItems.length})}</p><div id="results">{searchItems.map(item=><a class="result" href={item.url} data-search={`${item.title} ${item.subtitle} ${item.category}`}><span class="eyebrow">{item.category}</span><h2>{item.title}</h2><p>{item.subtitle}</p><span>{t('read')} ↗</span></a>)}</div><p id="empty" hidden>{t('noResults')}</p></div>}
+{page==='tag'&&<div class="container reading"><span class="eyebrow">WWMAPS / TAG</span><h1>#{slug}</h1>{posts.filter(p=>p.tags.includes(slug!)).map(p=><p><a href={postUrl(p,lang)}>{p.translations[lang]!.title} ↗</a></p>)}{!posts.some(p=>p.tags.includes(slug!))&&<p>{t('preparing')}</p>}</div>}
+</Base>
+<script>
+import {tr} from '../lib/i18n';
+const input=document.querySelector<HTMLInputElement>('#query');
+if(input){const lang=document.documentElement.lang==='pt-BR'?'pt-BR':'en';const cards=[...document.querySelectorAll<HTMLElement>('.result')];const normalize=(s:string)=>s.normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase();input.addEventListener('input',()=>{let count=0;for(const card of cards){card.hidden=!normalize(card.dataset.search??'').includes(normalize(input.value));if(!card.hidden)count++;}document.getElementById('count')!.textContent=tr(lang,'resultCount',{count});document.getElementById('empty')!.hidden=count>0;});}
+</script>
+<style>.search-page{max-width:850px;padding-bottom:90px}.search-page label{display:block;margin-bottom:12px}.search-page input{width:100%;padding:16px;border:1px solid var(--line);border-radius:7px;background:#fffaf1}.result{display:block;padding:25px 0;border-top:1px solid var(--line)}.result h2{margin-top:10px}.result p{color:var(--muted)}</style>

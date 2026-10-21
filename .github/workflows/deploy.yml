@@ -1,0 +1,62 @@
+name: Deploy Pages
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+permissions:
+  contents: read
+concurrency:
+  group: wwmaps-pages-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Check deployment configuration
+        id: configuration
+        shell: bash
+        run: |
+          if [[ -n "$CLOUDFLARE_API_TOKEN" && -n "$CLOUDFLARE_ACCOUNT_ID" ]]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Deployment is not configured. Set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID, the Pages project name, and PUBLIC_SITE_URL."
+          fi
+      - run: npm ci
+        if: steps.configuration.outputs.ready == 'true'
+      - uses: actions/cache/restore@v4
+        if: steps.configuration.outputs.ready == 'true'
+        with:
+          path: .publication-state
+          key: published-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: published-${{ github.ref_name }}-
+      - name: Check for newly due content
+        id: publication
+        if: steps.configuration.outputs.ready == 'true'
+        run: npm run content:due -- --state .publication-state/fingerprint.txt
+      - run: npm run check
+        if: steps.configuration.outputs.ready == 'true' && (github.event_name != 'schedule' || steps.publication.outputs.changed == 'true')
+      - run: npm test
+        if: steps.configuration.outputs.ready == 'true' && (github.event_name != 'schedule' || steps.publication.outputs.changed == 'true')
+      - run: npm run validate
+        if: steps.configuration.outputs.ready == 'true' && (github.event_name != 'schedule' || steps.publication.outputs.changed == 'true')
+      - run: npm run content:check
+        if: steps.configuration.outputs.ready == 'true' && (github.event_name != 'schedule' || steps.publication.outputs.changed == 'true')
+      - run: npm run deploy
+        if: steps.configuration.outputs.ready == 'true' && (github.event_name != 'schedule' || steps.publication.outputs.changed == 'true')
+      - uses: actions/cache/save@v4
+        if: success() && steps.configuration.outputs.ready == 'true' && (github.event_name != 'schedule' || steps.publication.outputs.changed == 'true')
+        with:
+          path: .publication-state
+          key: published-${{ github.ref_name }}-${{ github.run_id }}
