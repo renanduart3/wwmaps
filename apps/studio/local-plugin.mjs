@@ -33,6 +33,11 @@ export function localStudioPlugin(root){
         if(req.headers['x-wwmaps-local']!==token)return json(403,{error:'Sessão local desatualizada. Reabra o painel.'});
         const editor=await server.ssrLoadModule(resolve(root,'apps/studio/src/local-editor.ts'));
         if(path==='/__studio/api/catalog'&&req.method==='GET')return json(200,await editor.editorData(root));
+        if(path==='/__studio/api/detail'&&req.method==='GET'){
+          const query=new URL(req.url,'http://localhost').searchParams;
+          return json(200,await editor.editorDetail(root,query.get('origin'),query.get('id')));
+        }
+        if(path==='/__studio/api/trash'&&req.method==='GET')return json(200,await editor.editorTrash(root));
         if(path==='/__studio/api/export'&&req.method==='GET'){
           const catalog=await server.ssrLoadModule(resolve(root,'apps/studio/src/content-catalog.ts'));
           const csv=await server.ssrLoadModule(resolve(root,'apps/studio/src/content-csv.ts'));

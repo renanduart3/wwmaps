@@ -14,7 +14,7 @@ const complete=()=>visualPostSchema.parse({id:'external-test',style:'handdraw-si
   sources:[{id:'example',title:'Test source',url:'https://example.org/data',accessedAt:'2026-10-20'}],
   facts:[{text:'This is a test fixture, not a real publication.',sourceIds:['example']}],
   data:[{label:'A',value:4,unit:'items',period:'test period',sourceIds:['example']},{label:'B',value:8,unit:'items',period:'test period',sourceIds:['example']}]});
-const sample=new URL('../content/posts/mercator-vs-equal-area/assets/instagram-4x5.png',import.meta.url);
+const sample=new URL('./fixtures/mercator-vs-equal-area/assets/instagram-4x5.png',import.meta.url);
 async function store(root:string,post=complete()){
   const dir=join(root,post.id);await mkdir(dir,{recursive:true});await writeFile(join(dir,'post.json'),JSON.stringify(post));return dir;
 }

@@ -1,0 +1,40 @@
+{
+  "id": "mercator-vs-equal-area",
+  "status": "published",
+  "publishedAt": "2026-10-20T16:27:38.779Z",
+  "category": "geography",
+  "tags": [
+    "mapas",
+    "cartografia",
+    "projecoes"
+  ],
+  "languages": [
+    "pt-BR"
+  ],
+  "distribution": [
+    "site",
+    "instagram"
+  ],
+  "translations": {
+    "pt-BR": {
+      "title": "Por que Mercator amplia as regiões polares?",
+      "slug": "por-que-mercator-amplia-as-regioes-polares",
+      "summary": "A escolha da projeção muda a maneira como percebemos o tamanho das regiões no mapa."
+    }
+  },
+  "visualization": {
+    "type": "projection-comparison",
+    "primaryAsset": "./assets/instagram-4x5.png",
+    "supportingAsset": "./assets/map.svg"
+  },
+  "seo": {
+    "pt-BR": {
+      "title": "Por que Mercator amplia as regiões polares?",
+      "description": "A escolha da projeção muda a maneira como percebemos o tamanho das regiões no mapa."
+    }
+  },
+  "monetization": {
+    "type": "none",
+    "cta": null
+  }
+}

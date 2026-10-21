@@ -1,14 +1,17 @@
-import {readFile,writeFile,mkdir,rename,access} from 'node:fs/promises';
-import {join} from 'node:path';
+import {readFile,writeFile,mkdir,rename,access,readdir,cp} from 'node:fs/promises';
+import {join,resolve,relative,isAbsolute} from 'node:path';
 import {createHash,randomUUID} from 'node:crypto';
 import {z} from 'zod';
-import {visualPostSchema,imageStyleSchema,editorialDataLayoutSchema,categorySchema,categories,visualPostReady} from '@atlas/contracts';
+import {visualPostSchema,postSchema,imageStyleSchema,editorialDataLayoutSchema,categorySchema,categories,visualPostReady} from '@atlas/contracts';
 import {validateVisualPost} from '@atlas/content-store';
 import {externalImagePrompt} from '@atlas/prompts';
 import {slugify} from '@atlas/content-engine';
 import {contentCatalogRows,writeContentCatalog} from './content-catalog.js';
+import {validatePost} from '@atlas/validator';
 
 const id=z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+const origin=z.enum(['visual','legado']);
+const reference=z.object({id,origin:origin.default('visual'),revision:z.string()}).strict();
 const kind=visualPostSchema.shape.visual.unwrap().shape.kind.unwrap();
 const fields=z.object({
   title_en:z.string().min(1).max(140).optional(),title_pt_br:z.string().min(1).max(140).optional(),
@@ -17,6 +20,9 @@ const fields=z.object({
   status:z.enum(['draft','scheduled','published']).optional(),publishAt:z.iso.datetime({offset:true}).nullable().optional(),
 }).strict();
 const operation=z.discriminatedUnion('action',[
+  z.object({action:z.literal('replace'),id,origin,revision:z.string(),post:z.unknown(),articles:z.partialRecord(z.enum(['en','pt-BR']),z.string()).optional(),captions:z.partialRecord(z.enum(['en','pt-BR']),z.string()).optional()}).strict(),
+  z.object({action:z.literal('delete'),posts:z.array(reference).min(1).max(100)}).strict(),
+  z.object({action:z.literal('restore'),trashId:z.uuid()}).strict(),
   z.object({action:z.literal('save'),changes:z.array(z.object({id,revision:z.string(),fields})).min(1).max(100)}).strict(),
   z.object({action:z.literal('prompts'),posts:z.array(z.object({id,revision:z.string()})).min(1).max(100)}).strict(),
   z.object({action:z.literal('create'),topics:z.array(z.string().trim().min(1).max(140)).min(1).max(100),style:imageStyleSchema,category:categorySchema,kind,languages:z.array(z.enum(['en','pt-BR'])).min(1).max(2),layout:editorialDataLayoutSchema.nullable().optional()}).strict(),
@@ -24,6 +30,35 @@ const operation=z.discriminatedUnion('action',[
 const hash=(text:string)=>createHash('sha256').update(text).digest('hex');
 export class StudioError extends Error{constructor(message:string,public status=400){super(message);}}
 const folder=(root:string,postId:string)=>join(root,'content/visuals',id.parse(postId));
+const contentFolder=(root:string,source:string,postId:string)=>join(root,'content',origin.parse(source)==='visual'?'visuals':'posts',id.parse(postId));
+function inside(root:string,path:string){const rel=relative(resolve(root),resolve(path));if(!rel||rel.startsWith('..')||isAbsolute(rel))throw new StudioError('Caminho fora do diretório permitido.');return path;}
+async function readManaged(root:string,source:string,postId:string){
+  const dir=contentFolder(root,source,postId),raw=await readFile(join(dir,'post.json'),'utf8');
+  const post=source==='visual'?visualPostSchema.parse(JSON.parse(raw)):postSchema.parse(JSON.parse(raw));
+  if(post.id!==postId)throw new StudioError('ID diferente da pasta.');
+  return {dir,raw,post,revision:hash(raw)};
+}
+export async function editorDetail(root:string,source:string,postId:string){
+  const record=await readManaged(root,origin.parse(source),id.parse(postId));
+  const read=async(name:string)=>readFile(join(record.dir,name),'utf8').catch((e:NodeJS.ErrnoException)=>{if(e.code==='ENOENT')return '';throw e;});
+  const articles:Record<string,string>={},captions:Record<string,string>={},prompts:Record<string,string>={};
+  for(const language of record.post.languages){
+    if(source==='legado'){articles[language]=await read(`article.${language}.md`);captions[language]=await read(`instagram.${language}.txt`);}
+    else prompts[language]=await read(`prompt.${language}.txt`);
+  }
+  return {post:record.post,revision:record.revision,origin:source,articles,captions,prompts};
+}
+const trashManifest=z.object({trashId:z.uuid(),id,origin,deletedAt:z.iso.datetime(),title:z.string()});
+export async function editorTrash(root:string){
+  const path=join(root,'.studio/trash'),entries=await readdir(path,{withFileTypes:true}).catch((e:NodeJS.ErrnoException)=>{if(e.code==='ENOENT')return [];throw e;});
+  const result=[];
+  for(const entry of entries){if(!entry.isDirectory()||!z.uuid().safeParse(entry.name).success)continue;
+    const dir=join(path,entry.name);if(!await access(join(dir,'post/post.json')).then(()=>true,()=>false))continue;
+    const manifest=trashManifest.parse(JSON.parse(await readFile(join(dir,'manifest.json'),'utf8')));
+    if(manifest.trashId!==entry.name)throw new StudioError('Identificação inválida na lixeira.');result.push(manifest);
+  }
+  return result.sort((a,b)=>b.deletedAt.localeCompare(a.deletedAt));
+}
 async function readPost(root:string,postId:string){
   const dir=folder(root,postId),raw=await readFile(join(dir,'post.json'),'utf8');
   const post=visualPostSchema.parse(JSON.parse(raw));
@@ -34,9 +69,8 @@ export async function editorData(root:string){
   const rows=await contentCatalogRows(root),headers=rows.shift()!;
   const records=await Promise.all(rows.map(async row=>{
     const summary=Object.fromEntries(headers.map((key,i)=>[String(key),row[i]]));
-    if(summary.origem!=='visual')return {summary,editable:false};
-    try{const p=await readPost(root,String(summary.id));return {summary,editable:true,revision:p.revision,post:p.post};}
-    catch{return {summary,editable:false};}
+    try{const p=await readManaged(root,String(summary.origem),String(summary.id));return {summary,manageable:true,editable:summary.origem==='visual',revision:p.revision,post:p.post};}
+    catch{return {summary,manageable:false,editable:false};}
   }));
   return {records,options:{styles:imageStyleSchema.options,layouts:editorialDataLayoutSchema.options,kinds:kind.options,categories:categories.map(c=>({id:c.id,label:c.pt}))}};
 }
@@ -48,6 +82,48 @@ export function editContent(root:string,input:unknown){
 }
 async function performEdit(root:string,input:unknown){
   const request=operation.parse(input);
+  if(request.action==='delete'){
+    if(new Set(request.posts.map(p=>p.origin+'/'+p.id)).size!==request.posts.length)throw new StudioError('Seleção duplicada.');
+    const batch=await Promise.all(request.posts.map(async ref=>{const p=await readManaged(root,ref.origin,ref.id);if(p.revision!==ref.revision)throw new StudioError('Conteúdo alterado. Recarregue antes de excluir.',409);return {...ref,...p};}));
+    const moved:{from:string;to:string}[]=[];
+    try{for(const p of batch){
+      const trashId=randomUUID(),target=inside(root,join(root,'.studio/trash',trashId));await mkdir(target,{recursive:true});
+      await writeFile(join(target,'manifest.json'),JSON.stringify({trashId,id:p.id,origin:p.origin,deletedAt:new Date().toISOString(),title:p.post.translations.en?.title??p.post.translations['pt-BR']?.title??p.id},null,2)+'\n');
+      const destination=join(target,'post');await rename(inside(root,p.dir),destination);moved.push({from:p.dir,to:destination});
+    }}catch(error){for(const p of moved.reverse())await rename(p.to,p.from);throw error;}
+    await writeContentCatalog(root);return {message:`${batch.length} conteúdo(s) movido(s) para a lixeira local.`,count:batch.length};
+  }
+  if(request.action==='restore'){
+    const dir=inside(root,join(root,'.studio/trash',request.trashId));
+    const manifest=trashManifest.parse(JSON.parse(await readFile(join(dir,'manifest.json'),'utf8')));
+    if(manifest.trashId!==request.trashId)throw new StudioError('Identificação inválida na lixeira.');
+    const target=contentFolder(root,manifest.origin,manifest.id);
+    if(await access(target).then(()=>true,()=>false))throw new StudioError('Já existe conteúdo com este ID. Nada foi sobrescrito.',409);
+    await mkdir(join(target,'..'),{recursive:true});await rename(inside(root,join(dir,'post')),inside(root,target));
+    await writeContentCatalog(root);return {message:'Conteúdo restaurado com seus arquivos e status anteriores.',count:1};
+  }
+  if(request.action==='replace'){
+    const original=await readManaged(root,request.origin,request.id);
+    if(original.revision!==request.revision)throw new StudioError('Conteúdo alterado fora do formulário. Recarregue antes de salvar.',409);
+    const post=request.origin==='visual'?visualPostSchema.parse(request.post):postSchema.parse(request.post);
+    if(post.id!==request.id)throw new StudioError('O ID não pode ser alterado pelo formulário.');
+    const writes:FileWrite[]=[{file:join(original.dir,'post.json'),before:original.raw,after:JSON.stringify(post,null,2)+'\n'}];
+    if(request.origin==='visual'){
+      const p=visualPostSchema.parse(post);
+      if(request.articles||request.captions)throw new StudioError('Textos novos devem estar nas traduções do post.');
+      if(p.status!=='draft'){const errors=await validateVisualPost(original.dir,p,{requireImage:true});if(errors.length)throw new StudioError(errors.join('; '));}
+    }else{
+      if(post.languages.join(',')!==original.post.languages.join(','))throw new StudioError('Prepare novas traduções do pacote legado antes de alterar idiomas.');
+      for(const language of post.languages)for(const [texts,name] of [[request.articles,`article.${language}.md`],[request.captions,`instagram.${language}.txt`]] as const){
+        const text=texts?.[language];if(text!==undefined)writes.push({file:join(original.dir,name),before:await readFile(join(original.dir,name),'utf8'),after:text});
+      }
+      // Validate the proposed legacy package privately before touching the source.
+      const snapshot=inside(root,join(root,'.studio/validation',randomUUID()));await mkdir(join(snapshot,'..'),{recursive:true});await cp(original.dir,snapshot,{recursive:true});
+      for(const w of writes)await writeFile(join(snapshot,relative(original.dir,w.file)),w.after);
+      const errors=await validatePost(snapshot);if(errors.length)throw new StudioError(errors.join('; '));
+    }
+    await commitWrites(root,writes);await writeContentCatalog(root);return {message:'Conteúdo atualizado.',count:1};
+  }
   if(request.action==='create'){
     const posts=request.topics.map(topic=>visualPostSchema.parse({
       id:slugify(topic),style:request.style,category:request.category,languages:request.languages,
@@ -93,6 +169,12 @@ async function performEdit(root:string,input:unknown){
       writes.push({file:join(original.dir,'post.json'),before:original.raw,after:JSON.stringify(parsed,null,2)+'\n'});
     }
   }
+  await commitWrites(root,writes);
+  await writeContentCatalog(root);
+  return {message:request.action==='save'?`${selected.length} postagem(ns) salva(s).`:`Prompts preparados para ${selected.length} postagem(ns). Nenhuma imagem foi gerada.`,count:selected.length};
+}
+type FileWrite={file:string;before:string|null;after:string};
+async function commitWrites(root:string,writes:FileWrite[]){
   // All records are validated first. Backups are private and never enter a build or Git.
   const backup=join(root,'.studio/backups',`${Date.now()}-${randomUUID()}`);await mkdir(backup,{recursive:true});
   await writeFile(join(backup,'changes.json'),JSON.stringify(writes,null,2)+'\n');
@@ -106,6 +188,4 @@ async function performEdit(root:string,input:unknown){
     for(const w of applied.reverse())if(await readFile(w.file,'utf8')===w.after){if(w.before===null)await unlink(w.file);else await writeFile(w.file,w.before);}
     throw error;
   }
-  await writeContentCatalog(root);
-  return {message:request.action==='save'?`${selected.length} postagem(ns) salva(s).`:`Prompts preparados para ${selected.length} postagem(ns). Nenhuma imagem foi gerada.`,count:selected.length};
 }

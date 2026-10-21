@@ -4,7 +4,7 @@ Atualizado em 21/10/2026. Este é o checklist central para continuar em etapas.
 
 ## Direção vigente — fluxo simples com imagens externas
 
-- [x] Painel editorial exclusivo de desenvolvimento: tabela editável, criação de pautas, edição em massa, validação e backups locais; ausente do build público.
+- [x] Painel editorial exclusivo de desenvolvimento: aba Planejamento na navegação, CRUD de conteúdos, formulário completo, edição em massa, lixeira recuperável, validação e backups locais; ausente do build público.
 - [x] Catálogo CSV de conteúdos com estilo, layout, etapa de produção, imagens, data e pendências; entrada de pautas também em CSV.
 - [x] Editorial-data como estilo principal de infográficos de dados, com layouts de mapa, ranking, eventos e perfis.
 - [x] Três estilos oficiais: handdraw-simple, editorial-data e micro-people-data.

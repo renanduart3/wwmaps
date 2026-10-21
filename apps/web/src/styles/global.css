@@ -100,3 +100,5 @@
 .site-footer .footer-crew:not(:has(.interface-sprite)){display:none}
 
 .local-studio-bar{padding-block:9px;font-size:11px;text-align:right}.local-studio-bar a{color:#7132df;border-bottom:1px dashed #a783da}
+
+.site-header nav .planning-nav{color:#f6eaff;background:#7132df;border:1px solid #aa81f0;border-radius:6px;padding:8px 10px;font-weight:650}

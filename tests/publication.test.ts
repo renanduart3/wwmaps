@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { postSchema } from '@atlas/contracts';
 import { isPublished, readPosts } from '@atlas/content-store';
 import { validatePost } from '@atlas/validator';
-const samplePath = new URL('../content/posts/mercator-vs-equal-area/', import.meta.url);
+const samplePath = new URL('./fixtures/mercator-vs-equal-area/', import.meta.url);
 const sample = postSchema.parse(JSON.parse(await readFile(new URL('post.json', samplePath), 'utf8')));
 test('drafts and future posts are not public', () => {
   assert.equal(isPublished({ ...sample, status: 'draft' }), false);

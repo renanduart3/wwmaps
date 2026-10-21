@@ -46,7 +46,7 @@ test('catalog follows planned, prompt/image pending, produced and scheduled stat
     p.sources=[{id:'test',title:'Test fixture',url:'https://example.org',accessedAt:'2026-10-21'}];p.facts=[{text:'Fixture only',sourceIds:['test']}];p.data=[{label:'A',value:1,period:'test',unit:'items',sourceIds:['test']}];
     await writeFile(file,JSON.stringify(p));assert.equal((await row()).etapa_producao,'prompts-pendentes');
     await writeVisualPrompts(dir);assert.equal((await row()).etapa_producao,'aguardando-imagens');
-    await cp(new URL('../content/posts/mercator-vs-equal-area/assets/instagram-4x5.png',import.meta.url),join(dir,'image.en.png'));
+    await cp(new URL('./fixtures/mercator-vs-equal-area/assets/instagram-4x5.png',import.meta.url),join(dir,'image.en.png'));
     assert.equal((await row()).etapa_producao,'aguardando-revisao');assert.equal((await row()).produzido,'sim');assert.equal((await row()).status_configurado,'draft');
     p.status='scheduled';p.publishAt='2099-01-01T00:00:00Z';await writeFile(file,JSON.stringify(p));
     assert.equal((await row()).publicacao_no_build,'agendado');assert.equal((await row()).etapa_producao,'producao-completa');

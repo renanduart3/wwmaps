@@ -1,0 +1,9 @@
+{
+  "topic": "mercator-vs-equal-area",
+  "mainInsight": "A projeção de Mercator amplia áreas próximas aos polos; uma projeção equivalente preserva as proporções de área.",
+  "claimIds": [
+    "mercator-distortion",
+    "projection-tradeoff"
+  ],
+  "reviewed": true
+}

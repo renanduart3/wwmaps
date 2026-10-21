@@ -25,5 +25,5 @@ test('rejects an unsourced claim and an invented number', async () => {
 });
 
 test('generated sample package is complete', async () => {
-  assert.deepEqual(await validatePost(join(root, 'content', 'posts', 'mercator-vs-equal-area')), []);
+  assert.deepEqual(await validatePost(join(root, 'tests', 'fixtures', 'mercator-vs-equal-area')), []);
 });

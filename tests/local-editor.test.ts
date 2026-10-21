@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp,readFile,writeFile,mkdir,readdir,rm} from 'node:fs/promises';
+import {mkdtemp,readFile,writeFile,mkdir,readdir,rm,cp,access} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {editContent,editorData} from '../apps/studio/src/local-editor.js';
+import {editContent,editorData,editorDetail,editorTrash} from '../apps/studio/src/local-editor.js';
 import {localStudioRequest} from '../apps/studio/local-plugin.mjs';
 
 const create=(topics:string[])=>({action:'create',topics,style:'editorial-data',category:'economy',kind:'map',languages:['en']});
@@ -45,4 +45,39 @@ test('local editor leaves researched prompts to explicit action and refuses to s
     const invalid=join(root,'content/visuals/bad');await mkdir(invalid);await writeFile(join(invalid,'post.json'),'{bad');
     assert.equal((await editorData(root)).records.find(x=>x.summary.id==='bad')!.editable,false);
   }finally{await rm(root,{recursive:true,force:true});}
+});
+
+test('full CRUD edits structured posts, moves assets to recoverable trash and protects restore collisions',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'wwmaps-crud-'));
+ try{
+  await editContent(root,create(['Complete editor']));
+  const first=await editorDetail(root,'visual','complete-editor');
+  const post=structuredClone(first.post) as any;post.translations.en.body='A revised local draft.';post.visual.instructions='One central map with a clear legend.';
+  await editContent(root,{action:'replace',origin:'visual',id:post.id,revision:first.revision,post});
+  const current=await editorDetail(root,'visual',post.id);assert.equal((current.post as any).translations.en.body,'A revised local draft.');
+  const asset=join(root,'content/visuals',post.id,'image.en.png');await writeFile(asset,'fixture asset bytes');
+  await assert.rejects(editContent(root,{action:'delete',posts:[{id:post.id,origin:'visual',revision:first.revision}]}),/alterado/);
+  await editContent(root,{action:'delete',posts:[{id:post.id,origin:'visual',revision:current.revision}]});
+  assert.equal((await editorData(root)).records.length,0);const [deleted]=await editorTrash(root);assert.equal(deleted.id,post.id);
+  await editContent(root,create(['Complete editor']));
+  await assert.rejects(editContent(root,{action:'restore',trashId:deleted.trashId}),/Já existe/);
+  const duplicate=(await editorData(root)).records[0];await editContent(root,{action:'delete',posts:[{id:post.id,origin:'visual',revision:duplicate.revision}]});
+  await editContent(root,{action:'restore',trashId:deleted.trashId});
+  assert.equal(await readFile(asset,'utf8'),'fixture asset bytes');assert.equal((await editorDetail(root,'visual',post.id)).post.status,'draft');
+  await assert.rejects(editContent(root,{action:'restore',trashId:'../escape'}));
+ }finally{await rm(root,{recursive:true,force:true});}
+});
+
+test('legacy content can be edited through the local form, deleted and restored without converting its contract',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'wwmaps-legacy-crud-'));
+ try{
+  const dir=join(root,'content/posts/mercator-vs-equal-area');await mkdir(join(root,'content/posts'),{recursive:true});await cp(new URL('./fixtures/mercator-vs-equal-area',import.meta.url),dir,{recursive:true});
+  const detail=await editorDetail(root,'legado','mercator-vs-equal-area');
+  const post=structuredClone(detail.post) as any;post.tags.push('local-review');
+  await editContent(root,{action:'replace',origin:'legado',id:post.id,revision:detail.revision,post,articles:detail.articles,captions:detail.captions});
+  const current=await editorDetail(root,'legado',post.id);assert.ok(current.post.tags.includes('local-review'));assert.ok(current.articles['pt-BR'].includes('[mercator-distortion]'));
+  const row=(await editorData(root)).records[0];assert.equal(row.manageable,true);assert.equal(row.editable,false);
+  await editContent(root,{action:'delete',posts:[{id:post.id,origin:'legado',revision:current.revision}]});
+  const [trash]=await editorTrash(root);await editContent(root,{action:'restore',trashId:trash.trashId});await access(join(dir,'assets/instagram-4x5.png'));
+ }finally{await rm(root,{recursive:true,force:true});}
 });
