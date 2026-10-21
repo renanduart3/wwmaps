@@ -3,10 +3,27 @@ import assert from 'node:assert/strict';
 import {mkdtemp,readFile,writeFile,mkdir,readdir,rm,cp,access} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {editContent,editorData,editorDetail,editorTrash} from '../apps/studio/src/local-editor.js';
+import {editContent,editorData,editorDetail,editorTrash,planningCsvTemplate,planningCsvPosts} from '../apps/studio/src/local-editor.js';
 import {localStudioRequest} from '../apps/studio/local-plugin.mjs';
 
 const create=(topics:string[])=>({action:'create',topics,style:'editorial-data',category:'economy',kind:'map',languages:['en']});
+test('CSV planner validates a whole batch, previews without writing and never overwrites existing content',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'wwmaps-csv-'));
+ try{
+  const csv=planningCsvTemplate(),parsed=planningCsvPosts(csv);assert.equal(parsed.length,1);assert.deepEqual(parsed[0].languages,['en','pt-BR']);
+  assert.equal(parsed[0].translations['pt-BR']!.title,'Países por PIB per capita');
+  const preview=await editContent(root,{action:'import-csv',csv,preview:true});assert.equal(preview.count,1);assert.equal((await editorData(root)).records.length,0);
+  await editContent(root,{action:'import-csv',csv});const detail=await editorDetail(root,'visual',parsed[0].id);assert.equal(detail.post.status,'draft');assert.ok('publishAt' in detail.post);assert.equal(detail.post.publishAt,null);
+  await assert.rejects(editContent(root,{action:'import-csv',csv}),/já existe/);
+  const invalid='topic;style\nGood;handdraw-simple\nBad;invented\n';await assert.rejects(editContent(root,{action:'import-csv',csv:invalid}),/Linha 3/);assert.equal((await editorData(root)).records.length,1);
+  assert.throws(()=>planningCsvPosts('topic;style\nSame;editorial-data\nSame;editorial-data'),/duplicados/);
+  assert.throws(()=>planningCsvPosts('topic;style;languages\nTest;editorial-data;en,en'),/Duplicate language/);
+  assert.throws(()=>planningCsvPosts('topic;style;status\nTest;editorial-data;published'),/Coluna desconhecida/);
+  assert.throws(()=>planningCsvPosts('topic;style\nTest;'),/Linha 2/);
+  assert.throws(()=>planningCsvPosts('topic;style\n'),/entre 1 e 100/);
+  assert.equal(planningCsvPosts('topic,style\n"A map, with detail",handdraw-simple')[0].translations.en!.title,'A map, with detail');
+ }finally{await rm(root,{recursive:true,force:true});}
+});
 test('local-only guard rejects remote clients, hostile Host and cross-origin requests',()=>{
   const req=(peer:string,host:string,origin?:string)=>({socket:{remoteAddress:peer},headers:{host,origin}}) as Parameters<typeof localStudioRequest>[0];
   assert.equal(localStudioRequest(req('127.0.0.1','127.0.0.1:4321')),true);

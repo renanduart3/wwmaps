@@ -20,6 +20,14 @@ O estágio de produção é calculado, não uma célula manual. O status `publis
 
 Pacotes legados também têm consulta, formulário de edição e exclusão. O formulário preserva seu contrato, idiomas e geografia, permite metadados, artigo Markdown e legenda, e valida citações/números em uma cópia privada antes de salvar. Eles não são convertidos automaticamente para um dos três estilos novos. Metadados inválidos continuam identificados na tabela e exigem correção antes de editar.
 
+## Importar CSV
+
+No planejamento, abra **Importar pautas por CSV** → **Baixar modelo CSV**. Substitua o exemplo pelas suas pautas, salve como CSV UTF-8 e selecione o arquivo. Clique **Validar e visualizar**, confira a lista e use **Confirmar importação**. Salve ou descarte edições pendentes antes de importar.
+
+Colunas: `topic` e `style` obrigatórias; `category` (padrão geography), `kind` (map), `layout` (vazio), `languages` (en), `title_en`, `title_pt_br` (título do topic quando vazios) e `instructions` opcionais. Para dois idiomas, preencha `en,pt-BR`; use títulos traduzidos nas colunas correspondentes. Estilos e layouts seguem os contratos oficiais. O modelo usa BOM UTF-8 e ponto e vírgula, compatível com Excel/LibreOffice; CSV separado por vírgula também é aceito.
+
+Até 100 pautas e 500 KB por arquivo. Prévia não grava arquivos; a confirmação revalida o lote e verifica colisões. Todas as pautas entram como draft sem data de publicação. IDs vêm de topic; duplicados, IDs existentes, colunas desconhecidas e valores inválidos bloqueiam o lote. A importação não atualiza posts existentes e não gera pesquisa, prompts finais ou imagens. **Baixar CSV** continua sendo o relatório de produção e não é o modelo de importação. Arquivos enviados são lidos em memória, sem guardar uma cópia pública do CSV.
+
 ## Excluir e restaurar
 
 Clique em **Excluir** na linha ou no formulário, ou em **Excluir selecionados** na edição em massa. A confirmação mostra os IDs que serão movidos. **Mover para lixeira** retira o conteúdo das pastas ativas e preserva o pacote inteiro, incluindo imagens e prompts, em `.studio/trash/`. Nenhum arquivo é apagado permanentemente pelo painel.

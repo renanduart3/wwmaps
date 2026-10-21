@@ -8,6 +8,7 @@ import {externalImagePrompt} from '@atlas/prompts';
 import {slugify} from '@atlas/content-engine';
 import {contentCatalogRows,writeContentCatalog} from './content-catalog.js';
 import {validatePost} from '@atlas/validator';
+import {parseContentCsv,contentCsv} from './content-csv.js';
 
 const id=z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const origin=z.enum(['visual','legado']);
@@ -20,6 +21,7 @@ const fields=z.object({
   status:z.enum(['draft','scheduled','published']).optional(),publishAt:z.iso.datetime({offset:true}).nullable().optional(),
 }).strict();
 const operation=z.discriminatedUnion('action',[
+  z.object({action:z.literal('import-csv'),csv:z.string().max(500_000),preview:z.boolean().default(false)}).strict(),
   z.object({action:z.literal('replace'),id,origin,revision:z.string(),post:z.unknown(),articles:z.partialRecord(z.enum(['en','pt-BR']),z.string()).optional(),captions:z.partialRecord(z.enum(['en','pt-BR']),z.string()).optional()}).strict(),
   z.object({action:z.literal('delete'),posts:z.array(reference).min(1).max(100)}).strict(),
   z.object({action:z.literal('restore'),trashId:z.uuid()}).strict(),
@@ -28,6 +30,23 @@ const operation=z.discriminatedUnion('action',[
   z.object({action:z.literal('create'),topics:z.array(z.string().trim().min(1).max(140)).min(1).max(100),style:imageStyleSchema,category:categorySchema,kind,languages:z.array(z.enum(['en','pt-BR'])).min(1).max(2),layout:editorialDataLayoutSchema.nullable().optional()}).strict(),
 ]);
 const hash=(text:string)=>createHash('sha256').update(text).digest('hex');
+const planningColumns=['topic','style','category','kind','layout','languages','title_en','title_pt_br','instructions'];
+export function planningCsvTemplate(){return contentCsv([planningColumns,['Countries by GDP per capita','editorial-data','economy','map','editorial-data-map','en,pt-BR','Countries by GDP per capita','Países por PIB per capita','One world map with a clear legend.']]);}
+export function planningCsvPosts(csv:string){
+  const rows=parseContentCsv(csv);
+  if(!rows.length||rows.length>100)throw new StudioError('Importe entre 1 e 100 pautas por arquivo.');
+  const posts=rows.map((row,index)=>{
+    try{
+      for(const column of Object.keys(row))if(!planningColumns.includes(column))throw new Error(`Coluna desconhecida: ${column}. Use o modelo de importação, não o relatório exportado.`);
+      const languages=(row.languages||'en').split(',').map(value=>value.trim());
+      return visualPostSchema.parse({id:slugify(z.string().min(1).max(140).parse(row.topic)),style:row.style,category:row.category||'geography',languages,
+        visual:{kind:row.kind||'map',layout:row.layout||undefined,instructions:row.instructions||''},
+        translations:Object.fromEntries(languages.map(language=>[language,{title:(language==='en'?row.title_en:row.title_pt_br)||row.topic}]))});
+    }catch(error){throw new StudioError(`Linha ${index+2}: ${error instanceof Error?error.message:String(error)}`);}
+  });
+  if(new Set(posts.map(p=>p.id)).size!==posts.length)throw new StudioError('O CSV contém pautas com IDs duplicados. Use assuntos diferentes.');
+  return posts;
+}
 export class StudioError extends Error{constructor(message:string,public status=400){super(message);}}
 const folder=(root:string,postId:string)=>join(root,'content/visuals',id.parse(postId));
 const contentFolder=(root:string,source:string,postId:string)=>join(root,'content',origin.parse(source)==='visual'?'visuals':'posts',id.parse(postId));
@@ -82,6 +101,15 @@ export function editContent(root:string,input:unknown){
 }
 async function performEdit(root:string,input:unknown){
   const request=operation.parse(input);
+  if(request.action==='import-csv'){
+    const posts=planningCsvPosts(request.csv);
+    for(const p of posts)for(const source of ['visual','legado'])if(await access(contentFolder(root,source,p.id)).then(()=>true,()=>false))throw new StudioError(`A pauta ${p.id} já existe. Nenhuma foi importada.`,409);
+    if(request.preview)return {posts:posts.map(p=>({id:p.id,title:p.translations.en?.title??p.translations['pt-BR']!.title,style:p.style,category:p.category,languages:p.languages,kind:p.visual.kind})),count:posts.length};
+    const created:string[]=[];
+    try{for(const p of posts){const dir=folder(root,p.id);await mkdir(join(dir,'..'),{recursive:true});await mkdir(dir);created.push(dir);await writeFile(join(dir,'post.json'),JSON.stringify(p,null,2)+'\n',{flag:'wx'});}}
+    catch(error){const {rm}=await import('node:fs/promises');for(const dir of created.reverse())await rm(dir,{recursive:true,force:true});throw error;}
+    await writeContentCatalog(root);return {message:`${posts.length} pauta(s) importada(s) como rascunho.`,count:posts.length};
+  }
   if(request.action==='delete'){
     if(new Set(request.posts.map(p=>p.origin+'/'+p.id)).size!==request.posts.length)throw new StudioError('Seleção duplicada.');
     const batch=await Promise.all(request.posts.map(async ref=>{const p=await readManaged(root,ref.origin,ref.id);if(p.revision!==ref.revision)throw new StudioError('Conteúdo alterado. Recarregue antes de excluir.',409);return {...ref,...p};}));

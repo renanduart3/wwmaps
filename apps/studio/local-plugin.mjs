@@ -32,6 +32,9 @@ export function localStudioPlugin(root){
         }
         if(req.headers['x-wwmaps-local']!==token)return json(403,{error:'Sessão local desatualizada. Reabra o painel.'});
         const editor=await server.ssrLoadModule(resolve(root,'apps/studio/src/local-editor.ts'));
+        if(path==='/__studio/api/import-template'&&req.method==='GET'){
+          res.setHeader('Content-Type','text/csv; charset=utf-8');res.setHeader('Content-Disposition','attachment; filename="wwmaps-planning-template.csv"');res.end(editor.planningCsvTemplate());return;
+        }
         if(path==='/__studio/api/catalog'&&req.method==='GET')return json(200,await editor.editorData(root));
         if(path==='/__studio/api/detail'&&req.method==='GET'){
           const query=new URL(req.url,'http://localhost').searchParams;
