@@ -4,7 +4,7 @@
 npm run dev
 ```
 
-Abra **http://127.0.0.1:4321/__studio/** ou clique na aba **Planejamento · Local** da navegação principal do site em desenvolvimento (Planning · Local em inglês). O painel está em português e opera conteúdos EN e PT-BR.
+Abra **http://127.0.0.1:4321/__studio/** ou clique no botão roxo **Plan** (selo LOCAL) do cabeçalho do site em desenvolvimento. O painel está em português e opera conteúdos EN e PT-BR.
 
 ## Como usar
 

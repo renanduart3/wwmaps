@@ -101,4 +101,4 @@
 
 .local-studio-bar{padding-block:9px;font-size:11px;text-align:right}.local-studio-bar a{color:#7132df;border-bottom:1px dashed #a783da}
 
-.site-header nav .planning-nav{color:#f6eaff;background:#7132df;border:1px solid #aa81f0;border-radius:6px;padding:8px 10px;font-weight:650}
+.site-header nav .planning-nav{display:inline-flex;align-items:center;gap:7px;color:#fff;background:#7132df;border:1px solid #b893ff;border-radius:8px;padding:10px 13px;font-weight:700;white-space:nowrap;box-shadow:0 3px 12px #0002}.site-header nav .planning-nav:hover{background:#873ff1;color:#fff}.planning-nav small{font-size:8px;letter-spacing:.07em;padding:2px 4px;border-radius:3px;background:#ffffff24}

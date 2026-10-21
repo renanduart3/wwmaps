@@ -21,7 +21,7 @@ Site com APIs Cloudflare locais: `http://localhost:8788`. Nenhum deploy é feito
 
 ## Catálogo de conteúdos
 
-Com `npm run dev`, abra **http://127.0.0.1:4321/__studio/**. A aba **Planejamento · Local** na navegação abre o painel: criar pautas, consultar, editar conteúdo completo, editar células/em massa, excluir e restaurar pela lixeira. Os posts legados também têm formulário de edição. Salva nos posts locais, com validação e backups. O painel e sua API não existem no build público nem em `npm run preview`.
+Com `npm run dev`, abra **http://127.0.0.1:4321/__studio/**. O botão roxo **Plan** (LOCAL) no cabeçalho abre o painel: criar pautas, consultar, editar conteúdo completo, editar células/em massa, excluir e restaurar pela lixeira. Os posts legados também têm formulário de edição. Salva nos posts locais, com validação e backups. O painel e sua API não existem no build público nem em `npm run preview`.
 
 O relatório `content/catalog.csv` é local e ignorado pelo Git. Os posts e imagens continuam versionados para publicação. Guias: [painel local](docs/LOCAL-STUDIO.md) e [catálogo CSV](docs/CONTENT-CATALOG.md).
 
